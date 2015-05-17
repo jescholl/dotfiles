@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+#
+# Decode snort rules
+#
+# Snort rules often match binary data or crazy combinations of special characters
+# that aren't allowed in the rules file in their raw format, rules like this
+# hexencode special characters between '|'s.
+#
+# This little tool allows you to see what the rule is really doing
+#
+
+
+input = ARGV.join
+
+
+puts input.gsub(/\|[A-F0-9 ]+\|/i) { |m| puts m.inspect; m.split(' ').map{ |c| c.to_i(16).chr }.join }
+
+exit
+
+
+split_input = input.scan(/(?<=|)[^|]+(?=|)/)
+
+output = []
+split_input.each_index do |i|
+  if i % 2 == 0
+    output << split_input[i].split(' ').map{ |n| n.to_i(16).chr }
+  else
+    output << split_input[1]
+  end
+end
+
+puts output.flatten.join
