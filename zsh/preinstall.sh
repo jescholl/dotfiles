@@ -5,7 +5,7 @@ then
     DOTFILES_ROOT=$(pwd)
     cd -
   fi
-  sed -e "s/DOTFILES_ROOT_PATH/$DOTFILES_ROOT/g" zshrc.symlink.example > zshrc.symlink
+  sed -e "s/#DOTFILES_ROOT_PATH#/$DOTFILES_ROOT/g" zshrc.symlink.example > zshrc.symlink
 
   success 'zshrc'
 fi

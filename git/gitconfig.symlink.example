@@ -2,10 +2,10 @@
 #
 
 [user]
-        name = AUTHORNAME
-        email = AUTHOREMAIL
+        name = #AUTHORNAME#
+        email = #AUTHOREMAIL#
 [credential]
-        helper = GIT_CREDENTIAL_HELPER
+        helper = #GIT_CREDENTIAL_HELPER#
 [alias]
         co      = checkout
         wtf     = !$DOTFILES_ROOT/bin/git-wtf
