@@ -1,4 +1,35 @@
+" use pathogen to manage plugins
+execute pathogen#infect()
+
+" Syntax highlighting
 syntax on
+
+" Solarized color scheme
+set background=dark
+colorscheme solarized
+
+" Show cursor position
+set ruler
+" Line numbers
+set number
+" Highlight cursor line
+set cursorline
+" Make tabs 2 spaces
+set tabstop=2
+" Ignore case in searches
+set hlsearch
+" Highlight dynamically as pattern is typed
+set incsearch
+
+" Don't show the intro message when starting
+set shortmess=atI
+" Show filename in the window titlebar
+set title
+" Start scrolling 5 lines before reaching the window border
+set scrolloff=5
+
+" Add the g flag to search/replace by default
+set gdefault
 
 " Wrap gitcommit file types at the appropriate length
 filetype indent plugin on
