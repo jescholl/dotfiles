@@ -1,3 +1,8 @@
+if [ "$(uname -s)" != "Darwin" ]; then
+  exit 0
+fi
+
+
 # Sets reasonable OS X defaults.
 #
 # Or, in other words, set shit how I like in OS X.
