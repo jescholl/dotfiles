@@ -1,4 +1,10 @@
 #!/bin/sh
+
+# Only install homebrew if we're on a Mac
+if [ "$(uname -s)" != "Darwin" ]; then
+  exit 0
+fi
+
 #
 # Homebrew
 #
@@ -12,7 +18,21 @@ then
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
+brew update
+
 # Install homebrew packages
-brew install grc coreutils spark
+
+# autocomplete for many tools
+brew install grc
+
+brew install ipcalc
+brew install tcping
+brew install dhcping
+brew install csshx
+brew install gnu-tar
+brew install wget
+brew install nmap
+brew install rbenv
+brew install ruby-build
 
 exit 0
