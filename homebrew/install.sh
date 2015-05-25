@@ -34,5 +34,6 @@ brew install wget
 brew install nmap
 brew install rbenv
 brew install ruby-build
+brew install mtr
 
 exit 0

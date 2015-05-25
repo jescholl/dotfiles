@@ -2,6 +2,7 @@
 .*.swp
 .swp
 .DS_Store
+.netrwhist
 
 atom.symlink/.node-gyp
 atom.symlink/.storage
