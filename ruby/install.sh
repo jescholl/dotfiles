@@ -12,9 +12,9 @@ then
   brew install ruby-build > /tmp/ruby-build-install.log
 fi
 
-rbenv install ruby 1.9.3-p385
-rbenv install ruby 2.0.0-p353
-rbenv install ruby 2.1.2
-rbenv install ruby 2.2.2
+rbenv install 1.9.3-p385
+rbenv install 2.0.0-p353
+rbenv install 2.1.2
+rbenv install 2.2.2
 
 rbenv rehash
