@@ -1,16 +1,7 @@
 #!/usr/bin/env bash
-#
-# bootstrap installs things.
-
-cd "$(dirname "$0")/.."
-DOTFILES_ROOT=$(pwd)
-
-set -e
-
-echo ''
 
 info () {
-  printf "  [ \033[00;34m..\033[0m ] $1"
+  printf "  [ \033[00;34m..\033[0m ] $1\n"
 }
 
 user () {
@@ -116,17 +107,9 @@ link_dotfiles () {
 }
 
 run_installer() {
-  find -H "$DOTFILES_ROOT" -name $1  | while read installer; do sh -c "${installer}"; done
+  for installer in $(find -H "$DOTFILES_ROOT" -name $1)
+	do
+		info "executing $installer"
+		sh -c "${installer}"
+	done
 }
-
-
-run_installer "preinstall.sh"
-
-link_dotfiles
-
-run_installer "install.sh"
-
-run_installer "postinstall.sh"
-
-echo ''
-echo '  All installed!'

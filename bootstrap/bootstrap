@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#
+# bootstrap installs things.
+
+cd "$(dirname "$0")/.."
+export DOTFILES_ROOT=$(pwd)
+
+set -e
+
+source $DOTFILES_ROOT/bootstrap/functions
+
+echo ''
+
+run_installer "preinstall.sh"
+
+link_dotfiles
+
+run_installer "install.sh"
+
+run_installer "postinstall.sh"
+
+echo ''
+echo '  All installed!'
