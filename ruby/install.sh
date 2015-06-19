@@ -1,4 +1,5 @@
 #!/bin/sh
+source ${DOTFILES_ROOT}/bootstrap/functions
 
 if test ! $(which rbenv)
 then
@@ -12,9 +13,19 @@ then
   brew install ruby-build > /tmp/ruby-build-install.log
 fi
 
-rbenv install 1.9.3-p385
-rbenv install 2.0.0-p353
-rbenv install 2.1.2
-rbenv install 2.2.2
+for version in 1.9.3-p385 2.0.0-p353 2.1.2 2.2.2; do
+	if [ `rbenv versions | grep "^\s*$version\s*$"` ]; then
+	  success "skipped rbenv ruby $version, already installed"
+		continue
+	fi
+	
+  rbenv install $version
+
+	if [ $? == 0 ]; then
+	  success "installed rbenv ruby $version"
+	else
+		fail "failed to install rbenv ruby $version"
+	fi
+done
 
 rbenv rehash

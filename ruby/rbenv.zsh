@@ -3,3 +3,5 @@ if (( $+commands[rbenv] ))
 then
   eval "$(rbenv init -)"
 fi
+
+export RBENV_VERSION=2.2.2
