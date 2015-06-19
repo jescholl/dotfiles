@@ -1,4 +1,4 @@
-if ! [ -f $DOTFILES_ROOT/.template_out/gitconfig.symlink ]
+if ! [ -f $DOTFILES_ROOT/.dotfiles_scratch/gitconfig.symlink ]
 then
 	source $DOTFILES_ROOT/bootstrap/functions
   git_credential='cache'
@@ -12,7 +12,7 @@ then
   user ' - What is your github author email?'
   read -e git_authoremail
 
-  sed -e "s/#AUTHORNAME#/$git_authorname/g" -e "s/#AUTHOREMAIL#/$git_authoremail/g" -e "s/#GIT_CREDENTIAL_HELPER#/$git_credential/g" $DOTFILES_ROOT/git/gitconfig.symlink.template > $DOTFILES_ROOT/.template_out/gitconfig.symlink
+  sed -e "s/#AUTHORNAME#/$git_authorname/g" -e "s/#AUTHOREMAIL#/$git_authoremail/g" -e "s/#GIT_CREDENTIAL_HELPER#/$git_credential/g" $DOTFILES_ROOT/git/gitconfig.symlink.template > $DOTFILES_ROOT/.dotfiles_scratch/gitconfig.symlink
 
   success 'gitconfig'
 fi
