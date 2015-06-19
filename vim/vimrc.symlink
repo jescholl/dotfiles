@@ -16,6 +16,11 @@ set number
 set cursorline
 " Make tabs 2 spaces
 set tabstop=2
+set softtabstop=2
+" use 2 space tab for autoindents too
+set shiftwidth=2
+" Use spaces instead of tabs when hitting tab
+set expandtab
 " Ignore case in searches
 set hlsearch
 " Highlight dynamically as pattern is typed
