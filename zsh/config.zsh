@@ -1,7 +1,7 @@
 if [[ -n $SSH_CONNECTION ]]; then
-  export PS1='%m:%3~$(git_info_for_prompt)%# '
+  export PS1='%m:%3~$(__git_ps1 " (%s)")%# '
 else
-  export PS1='%3~$(git_info_for_prompt)%# '
+  export PS1='%3~$(__git_ps1 " (%s)")%# '
 fi
 
 export LSCOLORS="exfxcxdxbxegedabagacad"
@@ -26,7 +26,6 @@ setopt EXTENDED_HISTORY # add timestamps to history
 setopt PROMPT_SUBST
 setopt CORRECT
 setopt COMPLETE_IN_WORD
-setopt IGNORE_EOF
 
 setopt APPEND_HISTORY # adds history
 setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions

@@ -1,0 +1,5 @@
+# git prompt settings, see git-prompt.zsh for more info
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUPSTREAM=1
+GIT_PS1_SHOWCOLORHINTS=1
