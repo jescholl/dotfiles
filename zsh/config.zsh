@@ -5,6 +5,7 @@ else
 fi
 
 export LSCOLORS="exfxcxdxbxegedabagacad"
+export ZLS_COLORS=$LSCOLORS
 export CLICOLOR=true
 
 fpath=($DOTFILES_ROOT/functions $fpath)

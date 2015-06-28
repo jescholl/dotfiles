@@ -1,3 +1,8 @@
+if [ "$(uname -s)" != "Darwin" ]; then
+  info "skipping themes, OS not currently supported"
+  exit 0
+fi
+
 # install solarized
 source $DOTFILES_ROOT/bootstrap/functions
 

@@ -26,8 +26,6 @@ set hlsearch
 " Highlight dynamically as pattern is typed
 set incsearch
 
-" Don't show the intro message when starting
-set shortmess=atI
 " Show filename in the window titlebar
 set title
 " Start scrolling 5 lines before reaching the window border

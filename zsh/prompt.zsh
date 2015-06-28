@@ -15,8 +15,7 @@ directory_name() {
   echo "%{$fg[blue]%}%3~%{$reset_color%}"
 }
 
+export RPROMPT="%(?..{%{$fg[red]%}%?%{$reset_color%}} )%{$fg_bold[green]%}%*%{$reset_color%}"
 precmd() {
-  title "zsh" "%m" "%55<...<%~"
-  export RPROMPT="%{$fg_bold[green]%}%*%{$reset_color%}"
   __git_ps1 $'\n$(rb_prompt)$(directory_name)' $'\n› ' " (%s)"
 }
