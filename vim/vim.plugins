@@ -1,0 +1,13 @@
+github.com/altercation/vim-colors-solarized
+github.com/tpope/vim-pathogen
+github.com/tpope/vim-fugitive
+github.com/elzr/vim-json
+github.com/tpope/vim-markdown
+github.com/tpope/vim-rails
+github.com/tpope/vim-rake
+github.com/kien/ctrlp.vim
+github.com/godlygeek/tabular
+github.com/jeetsukumaran/vim-buffergator
+github.com/tpope/vim-endwise
+github.com/Shougo/unite.vim
+github.com/Shougo/vimfiler.vim
