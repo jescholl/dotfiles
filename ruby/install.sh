@@ -13,7 +13,7 @@ then
   brew install ruby-build > /tmp/ruby-build-install.log
 fi
 
-for version in 1.9.3-p385 2.0.0-p353 2.1.2 2.2.2; do
+for version in 1.9.3-p385 2.0.0-p353 2.1.2 2.2.2 2.2.3; do
 	if [ `rbenv versions | grep "^\s*$version\s*$"` ]; then
 	  success "skipped rbenv ruby $version, already installed"
 		continue
