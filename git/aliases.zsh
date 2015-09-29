@@ -17,3 +17,4 @@ alias gco='git checkout'
 alias gcb='git copy-branch-name'
 alias gb='git branch'
 alias gs='git status -sb' # upgrade your git if -sb breaks for you. it's fun.
+alias glt='git log $(git describe --tags --abbrev=0 $(git describe --tags)^)..$(git describe --tags)' # show commits between last tag and current tag

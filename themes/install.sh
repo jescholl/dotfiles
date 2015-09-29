@@ -11,11 +11,11 @@ source $DOTFILES_ROOT/bootstrap/functions
 
 
 # iTerm
-if [ -f "$DOTFILES_ROOT/.dotfiles_scratch/iterm2_solarized.loaded" ]; then
+if [ -f "$DOTFILES_ROOT/__dotfiles_scratch__/iterm2_solarized.loaded" ]; then
   success "skipped iTerm2 Solarized Dark theme, already loaded"
 else
   open "${DOTFILES_ROOT}/themes/solarized/iterm2-colors-solarized/Solarized Dark.itermcolors" && \
-	  touch $DOTFILES_ROOT/.dotfiles_scratch/iterm2_solarized.loaded
+	  touch $DOTFILES_ROOT/__dotfiles_scratch__/iterm2_solarized.loaded
 	if [ $? == 0 ]; then
 	  success "loaded iTerm2 Solarized Dark theme"
   else
@@ -70,11 +70,11 @@ end tell
 
 EOD
 
-if [ -f "$DOTFILES_ROOT/.dotfiles_scratch/terminal_app_solarized.loaded" ]; then
+if [ -f "$DOTFILES_ROOT/__dotfiles_scratch__/terminal_app_solarized.loaded" ]; then
   success "skipped Terminal.app Solarized Dark theme, already loaded"
 else
 	osascript -e "$terminal_app_solarized_dark" && \
-	  touch $DOTFILES_ROOT/.dotfiles_scratch/terminal_app_solarized.loaded
+	  touch $DOTFILES_ROOT/__dotfiles_scratch__/terminal_app_solarized.loaded
 	if [ $? == 0 ]; then
 	  success "loaded Terminal.app Solarized Dark theme"
 	else

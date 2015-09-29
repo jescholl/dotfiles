@@ -11,4 +11,4 @@ atom.symlink/packages
 atom.symlink/storage
 atom.symlink/themes
 
-.dotfiles_scratch
+__dotfiles_scratch__
