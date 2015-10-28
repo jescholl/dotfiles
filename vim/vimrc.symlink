@@ -43,6 +43,15 @@ filetype indent plugin on
 "use shared clibpoard
 set clipboard=unnamed
 
+"better tab completion and completion menu for vim commands
+set wildmenu
+set wildmode=list:longest,full
+
+if has('persistent_undo')
+    set undodir=~/.vim/undodir
+    set undofile
+endif
+
 
 
 " Turn off highlighting temporarily
@@ -54,3 +63,6 @@ nnoremap <C-N> :<C-u>VimFilerExplorer -split -simple -parent -winwidth=55 -toggl
 
 " toggle buffer list
 map <C-l> :BuffergatorToggle<CR>
+
+" trim trailing whitespace on exit
+autocmd FileType c,cpp,java,php,ruby autocmd BufWritePre <buffer> :%s/\s\+$//e

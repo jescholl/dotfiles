@@ -94,6 +94,31 @@ link_file () {
   fi
 }
 
+clone_repos() {
+  local dir=
+  local file=
+  local repo_dir=
+  for git_list in $(find -H "$DOTFILES_ROOT" -name "*.git_list"); do
+    file=$(basename -s ".git_list" $git_list)
+    dir=$(basename $(dirname $git_list))
+    for plugin in $(cat ${git_list}); do
+      repo_dir=${DOTFILES_ROOT}/__dotfiles_scratch__/${dir}-${file}/$(echo $plugin | sed 's/^.*\///')
+
+      git clone -q "https://${plugin}" $repo_dir 2> /dev/null ||
+        (pushd > /dev/null $repo_dir && \
+        git fetch origin -q && \
+        git clean -fq && \
+        git reset --hard origin/master -q && popd > /dev/null)
+      
+      if [ $? == 0 ]; then
+        success "Cloned ${plugin}"
+      else
+        fail "Failed to clone ${plugin}"
+      fi
+    done
+  done
+}
+
 link_dotfiles () {
   info 'installing dotfiles'
 
