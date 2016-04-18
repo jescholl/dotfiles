@@ -62,7 +62,14 @@ let g:vimfiler_as_default_explorer = 1
 nnoremap <C-N> :<C-u>VimFilerExplorer -split -simple -parent -winwidth=55 -toggle -no-quit<CR>
 
 " toggle buffer list
-map <C-l> :BuffergatorToggle<CR>
+map <C-b> :BuffergatorToggle<CR>
+
+" vim-chef key mappings
+nnoremap <C-k> :<C-u>ChefFindAny<CR>
+nnoremap <C-l> :<C-u>ChefFindAnyVsplit<CR>
+nnoremap <C-j> :<C-u>ChefFindRelated<CR>
 
 " trim trailing whitespace on exit
 autocmd FileType c,cpp,java,php,ruby autocmd BufWritePre <buffer> :%s/\s\+$//e
+" convert symbols to strings
+map mb :%s/\[:\([a-z_]\+\)\]/\['\1'\]/<CR>
