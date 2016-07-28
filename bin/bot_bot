@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ -z "$SLACK_WEBHOOK_URL" ]; then
+  echo "\$SLACK_WEBHOOK_URL not set"
+  exit 1
+fi
+
+botname=$1
+icon=$2
+channel=$3
+message=${@:4}
+
+if [[ $(echo $icon | grep -q '^:' && echo "1") == "1" ]]; then
+  icon_type="icon_emoji"
+else
+  icon_type="icon_url"
+fi
+
+if [[ "$icon" == "none" ]]; then
+  icon_type="icon_url"
+  icon="https://slack.com/img/slackbot_48.png"
+fi
+
+iconjson=", \"$icon_type\": \"$icon\""
+
+
+curl -X POST -d "payload={\"text\": \"$message\", \"parse\": \"full\", \"channel\": \"$channel\", \"username\": \"$botname\" $iconjson}" $SLACK_WEBHOOK_URL

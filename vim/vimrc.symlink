@@ -52,6 +52,8 @@ if has('persistent_undo')
     set undofile
 endif
 
+" turn off vim-json quotes autohiding, even though I love them, it's confusing
+let g:vim_json_syntax_conceal = 0
 
 
 " Turn off highlighting temporarily
@@ -70,6 +72,6 @@ nnoremap <C-l> :<C-u>ChefFindAnyVsplit<CR>
 nnoremap <C-j> :<C-u>ChefFindRelated<CR>
 
 " trim trailing whitespace on exit
-autocmd FileType c,cpp,java,php,ruby autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType c,cpp,java,php,ruby,eruby autocmd BufWritePre <buffer> :%s/\s\+$//e
 " convert symbols to strings
 map mb :%s/\[:\([a-z_]\+\)\]/\['\1'\]/<CR>

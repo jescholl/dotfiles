@@ -15,3 +15,5 @@ github.com/Shougo/unite.vim
 github.com/Shougo/vimfiler.vim
 github.com/vim-ruby/vim-ruby
 github.com/t9md/vim-chef
+github.com/tpope/vim-liquid
+github.com/tpope/vim-jdaddy

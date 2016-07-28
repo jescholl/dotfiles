@@ -120,11 +120,9 @@ clone_repos() {
 }
 
 link_dotfiles () {
-  info 'installing dotfiles'
-
   local overwrite_all=false backup_all=false skip_all=false
 
-  for src in $(find -H "$DOTFILES_ROOT" -name '*.symlink')
+  for src in $(find -E -H "$DOTFILES_ROOT" | perl -nle 'print if /\.symlink$/ and not /\.symlink\/./')
   do
     dst="$HOME/.$(basename "${src%.*}")"
     link_file "$src" "$dst"
