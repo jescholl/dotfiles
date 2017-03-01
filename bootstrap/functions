@@ -94,11 +94,15 @@ link_file () {
   fi
 }
 
+except_vim_undo() {
+  perl -nle 'print unless /\.vim_undo/'
+}
+
 clone_repos() {
   local dir=
   local file=
   local repo_dir=
-  for git_list in $(find -H "$DOTFILES_ROOT" -name "*.git_list"); do
+  for git_list in $(find -H "$DOTFILES_ROOT" -name "*.git_list" | except_vim_undo); do
     file=$(basename -s ".git_list" $git_list)
     dir=$(basename $(dirname $git_list))
     for plugin in $(cat ${git_list}); do
@@ -122,7 +126,7 @@ clone_repos() {
 link_dotfiles () {
   local overwrite_all=false backup_all=false skip_all=false
 
-  for src in $(find -E -H "$DOTFILES_ROOT" | perl -nle 'print if /\.symlink$/ and not /\.symlink\/./')
+  for src in $(find -E -H "$DOTFILES_ROOT" | perl -nle 'print if /\.symlink$/ and not /\.symlink\/./' | except_vim_undo)
   do
     dst="$HOME/.$(basename "${src%.*}")"
     link_file "$src" "$dst"
@@ -130,7 +134,7 @@ link_dotfiles () {
 }
 
 run_installer() {
-  for installer in $(find -H "$DOTFILES_ROOT" -name $1)
+  for installer in $(find -H "$DOTFILES_ROOT" -name $1 | except_vim_undo)
 	do
 		info "executing $installer"
 		sh -c "${installer}"
