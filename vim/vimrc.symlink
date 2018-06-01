@@ -23,7 +23,7 @@ set softtabstop=2
 " use 2 space tab for autoindents too
 set shiftwidth=2
 " Use spaces instead of tabs when hitting tab
-"set expandtab
+set expandtab
 " Ignore case in searches
 set hlsearch
 " Highlight dynamically as pattern is typed
@@ -73,5 +73,8 @@ nnoremap <C-j> :<C-u>ChefFindRelated<CR>
 
 " trim trailing whitespace on exit
 autocmd FileType c,cpp,java,php,ruby,eruby autocmd BufWritePre <buffer> :%s/\s\+$//e
+
+" TABS OVER SPACES!!!
+autocmd FileType c,cpp,ruby,puppet autocmd BufWritePre <buffer> :%s/\t/        /eg
 " convert symbols to strings
 map mb :%s/\[:\([a-z_]\+\)\]/\['\1'\]/<CR>
