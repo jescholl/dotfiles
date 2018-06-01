@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# set defaults
+GIT_BASE_URL=${GIT_BASE_URL:-github.com}
+proj=${GIT_DEFAULT_PROJECT:USER}
+
+# grab the first argument
+repo=$1; shift
+# grab everything else
+options=$@
+
+if [ $(echo "$repo" | grep '/') ]; then 
+  proj=$(echo $repo | cut -d/ -f 1)
+  repo=$(echo $repo | cut -d/ -f 2)
+fi
+
+URL="ssh://git@${GIT_BASE_URL}/${proj}/${repo}.git ${options}"
+echo cloning $URL
+
+#git clone $URL
