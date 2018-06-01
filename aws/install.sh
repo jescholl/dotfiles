@@ -1,2 +1,5 @@
 #!/bin/bash
-pip install awscli --ignore-installed six
+
+pip=$(which pip || which pip3)
+
+$pip install awscli --ignore-installed six
