@@ -18,3 +18,4 @@ github.com/t9md/vim-chef
 github.com/tpope/vim-liquid
 github.com/tpope/vim-jdaddy
 github.com/hashivim/vim-hashicorp-tools
+github.com/puppetlabs/puppet-syntax-vim
