@@ -4,6 +4,7 @@
 
 cd "$(dirname "$0")/.."
 export DOTFILES_ROOT=$(pwd)
+export DOTFILES_SCRATCH=$DOTFILES_ROOT/__dotfiles_scratch__
 
 set -e
 

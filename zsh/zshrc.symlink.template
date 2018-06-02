@@ -1,5 +1,6 @@
 # shortcut to this dotfiles path
 export DOTFILES_ROOT=#DOTFILES_ROOT_PATH#
+export DOTFILES_SCRATCH=$DOTFILES_ROOT/__dotfiles_scratch__
 
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
@@ -39,3 +40,9 @@ do
 done
 
 unset config_files
+
+# load paths from the path helper
+[ -d "/etc/paths.d" ] && eval $(/usr/libexec/path_helper -s)
+
+# configure autojump
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh

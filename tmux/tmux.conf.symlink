@@ -22,8 +22,7 @@ set -g status-right '#[fg=green,bg=default,bright]#(tmux-mem-cpu-load -i 1) #[fg
 # set -g status-right '#[fg=yellow]#(parse_git_branch) %H:%M#[GMT]'
 
 # tmux + git status line
-#run-shell "source $DOTFILES_ROOT/__dotfiles_scratch__/tmux-plugins/tmux-git/tmux-git.sh"
-run-shell "source ~/home/dotfiles/__dotfiles_scratch__/tmux-plugins/tmux-git/tmux-git.sh"
+run-shell "source $DOTFILES_SCRATCH/tmux-plugins/tmux-git/tmux-git.sh"
 
 # mouse support for selecting panes etc
 # with putty, ctrl right-click to select popup window and paste
