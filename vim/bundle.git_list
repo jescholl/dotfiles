@@ -17,5 +17,8 @@ github.com/vim-ruby/vim-ruby
 github.com/t9md/vim-chef
 github.com/tpope/vim-liquid
 github.com/tpope/vim-jdaddy
+github.com/tpope/vim-surround
+github.com/tpope/vim-repeat
 github.com/hashivim/vim-hashicorp-tools
 github.com/puppetlabs/puppet-syntax-vim
+github.com/fatih/vim-go
