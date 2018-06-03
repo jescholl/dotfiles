@@ -23,19 +23,10 @@ brew update
 # Install homebrew packages
 
 # autocomplete for many tools
-brew install grc
 
-brew install ipcalc
-brew install tcping
-brew install dhcping
-brew install csshx
-brew install gnu-tar
-brew install wget
-brew install nmap
-brew install rbenv
-brew install ruby-build
-brew install mtr
-brew install httpie
-brew install exercism
+brew_packages="awscli grc ipcalc tcpint dhcping csshx gnu-tar wget nmap rbenv ruby-build mtr httpie exercism"
+for pkg in $brew_packages; do
+  brew install $pkg status
+done
 
 exit 0
