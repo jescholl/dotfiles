@@ -19,6 +19,8 @@
         status = auto
         branch = auto
         ui = true
+[status]
+        showUntrackedFiles = all
 [core]
         excludesfile = ~/.gitignore
         editor = vim
