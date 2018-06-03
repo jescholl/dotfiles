@@ -36,5 +36,6 @@ brew install rbenv
 brew install ruby-build
 brew install mtr
 brew install httpie
+brew install exercism
 
 exit 0
