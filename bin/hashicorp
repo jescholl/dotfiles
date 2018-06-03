@@ -1,0 +1,27 @@
+#!/bin/bash
+
+name=$1
+version=$2
+
+if [ ! -f "~/bin/hashicorp/${name}/${version}" ]; then
+  os=${os:-$(uname -s | tr '[:upper:]' '[:lower:]')}
+  arch=${arch:-$(uname -m)}
+  echo $arch
+  if [ "$arch" = "x86_64" ]; then arch="amd64"; fi
+  echo $arch
+
+  build_dir=${build_dir-${TMPDIR:-"/tmp"}}
+
+  zip_name="${name}_${version}_${os}_${arch}.zip"
+  download_url="https://releases.hashicorp.com/${name}/${version}/${zip_name}"
+
+  out_dir=$(mktemp -d "${build_dir}/${name}.XXX")
+
+  bash -c "cd ${out_dir} && wget ${download_url} -O ./${zip_name} && unzip ${zip_name}"
+
+  mkdir -p ~/bin/hashicorp/${name}/
+  mv "${out_dir}/${name}" ~/bin/hashicorp/${name}/${version}
+fi
+
+ln -fs ~/bin/hashicorp/${name}/${version} ~/bin/${name}
+rm -rf "${out_dir}"
