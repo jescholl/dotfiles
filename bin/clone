@@ -2,19 +2,49 @@
 
 # set defaults
 GIT_BASE_URL=${GIT_BASE_URL:-github.com}
-proj=${GIT_DEFAULT_PROJECT:USER}
+proj=${GIT_DEFAULT_PROJECT:-$USER}
 
 # grab the first argument
 repo=$1; shift
 # grab everything else
 options=$@
 
-if [ $(echo "$repo" | grep '/') ]; then 
-  proj=$(echo $repo | cut -d/ -f 1)
-  repo=$(echo $repo | cut -d/ -f 2)
-fi
+uri=($(echo "$repo" | tr '/' ' '))
 
-URL="ssh://git@${GIT_BASE_URL}/${proj}/${repo}.git ${options}"
-echo cloning $URL
+usage() {
+  echo <<EOT
+$0: <repo_uri>
 
-#git clone $URL
+Environment Variables:
+  GIT_BASE_URL=github.com # default URL when not otherwise specified
+  GIT_DEFAULT_PROJECT=$USER # default project name when not otherwise specified
+
+Examples:
+  $0 github.com/jescholl/packetman
+  $0 jescholl/packetman
+  $0 packetman
+EOT
+}
+
+case "${#uri[@]}" in
+  3)
+    GIT_BASE_URL=${uri[0]}
+    proj=${uri[1]}
+    repo=${uri[2]}
+    ;;
+  2)
+    proj=${uri[0]}
+    repo=${uri[1]}
+    ;;
+  1)
+    repo=${uri[0]}
+    ;;
+  *)
+    usage
+    exit 1
+esac
+
+URL="ssh://git@${GIT_BASE_URL}/${proj}/${repo}.git"
+
+echo git clone $URL $options
+git clone $URL $options
