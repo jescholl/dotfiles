@@ -5,7 +5,11 @@ execute pathogen#infect()
 syntax on
 
 " Solarized color scheme
-set background=dark
+if $ITERM_PROFILE == 'Solarized Light' || $VIM_BACKGROUND == 'light'
+  set background=light
+else
+  set background=dark
+end
 colorscheme solarized
 
 " Show cursor position
