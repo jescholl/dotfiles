@@ -15,4 +15,7 @@ set_iterm_theme() {
   [[ "$theme_name" == "$ITERM_PROFILE" ]] && return 1
   export ITERM_PROFILE=$theme_name
   echo -e "\033]50;SetProfile=$theme_name\a"
+  if [[ -n "$DOTFILES_SCRATCH" && -d "$DOTFILES_SCRATCH" ]]; then
+    echo ${ITERM_PROFILE##* } | tr '[:upper:]' '[:lower:]' > "$DOTFILES_SCRATCH/vim_background"
+  fi
 }

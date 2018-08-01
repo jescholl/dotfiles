@@ -4,12 +4,15 @@ execute pathogen#infect()
 " Syntax highlighting
 syntax on
 
-" Solarized color scheme
-if $ITERM_PROFILE == 'Solarized Light' || $VIM_BACKGROUND == 'light'
-  set background=light
-else
-  set background=dark
-end
+function NewlineMacro()
+  " read background from first line of file
+  let &background = readfile($DOTFILES_SCRATCH."/vim_background")[0]
+  " Turn off highlighting temporarily
+  :noh
+endfunction
+
+autocmd BufRead,BufNewFile * call NewlineMacro()
+
 colorscheme solarized
 
 " Show cursor position
@@ -67,9 +70,7 @@ endif
 " turn off vim-json quotes autohiding, even though I love them, it's confusing
 let g:vim_json_syntax_conceal = 0
 
-
-" Turn off highlighting temporarily
-nnoremap <CR> :noh<CR><CR>
+nnoremap <CR> :call NewlineMacro()<CR><CR>
 
 " File explorer
 let g:vimfiler_as_default_explorer = 1
