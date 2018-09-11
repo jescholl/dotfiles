@@ -4,27 +4,29 @@
 GIT_BASE_URL=${GIT_BASE_URL:-github.com}
 proj=${GIT_DEFAULT_PROJECT:-$USER}
 
-# grab the first argument
-repo=$1; shift
-# grab everything else
-options=$@
-
-uri=($(echo "$repo" | tr '/' ' '))
+script_name=$(basename "$0")
 
 usage() {
-  echo <<EOT
-$0: <repo_uri>
+  cat <<EOT
+$script_name: <repo_uri>
 
 Environment Variables:
   GIT_BASE_URL=github.com # default URL when not otherwise specified
   GIT_DEFAULT_PROJECT=$USER # default project name when not otherwise specified
 
 Examples:
-  $0 github.com/jescholl/packetman
-  $0 jescholl/packetman
-  $0 packetman
+  $script_name github.com/jescholl/packetman
+  $script_name jescholl/packetman
+  $script_name packetman
 EOT
 }
+
+# grab the first argument
+repo=$1; shift
+# grab everything else
+options=$@
+
+uri=($(echo "$repo" | tr '/' ' '))
 
 case "${#uri[@]}" in
   3)
@@ -46,5 +48,5 @@ esac
 
 URL="ssh://git@${GIT_BASE_URL}/${proj}/${repo}.git"
 
-echo git clone $URL $options
-git clone $URL $options
+# shellcheck disable=SC2086 # $options may contain multiple flags
+git clone "$URL" $options
