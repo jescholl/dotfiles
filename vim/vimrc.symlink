@@ -4,14 +4,14 @@ execute pathogen#infect()
 " Syntax highlighting
 syntax on
 
-function NewlineMacro()
+function SetBackground()
   " read background from first line of file
-  let &background = readfile($DOTFILES_SCRATCH."/vim_background")[0]
-  " Turn off highlighting temporarily
-  :noh
+  if filereadable($DOTFILES_SCRATCH."/vim_background")
+    let &background = readfile($DOTFILES_SCRATCH."/vim_background")[0]
+  endif
 endfunction
 
-autocmd BufRead,BufNewFile * call NewlineMacro()
+autocmd BufRead,BufNewFile * call SetBackground()
 
 colorscheme solarized
 
@@ -70,7 +70,7 @@ endif
 " turn off vim-json quotes autohiding, even though I love them, it's confusing
 let g:vim_json_syntax_conceal = 0
 
-nnoremap <CR> :call NewlineMacro()<CR><CR>
+nnoremap <CR> :noh <bar> :call SetBackground()<CR><CR>
 
 " File explorer
 let g:vimfiler_as_default_explorer = 1
@@ -108,6 +108,8 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+
+let g:syntastic_sh_shellcheck_args="-x -e SC1090 -e SC2181"
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
