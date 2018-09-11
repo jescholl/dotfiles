@@ -44,7 +44,7 @@ unset config_files
 # load paths from the path helper
 [ -d "/etc/paths.d" ] && eval $(/usr/libexec/path_helper -s)
 
-# configure autojump
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+## configure autojump
+#[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 # I want to use [ and ] damn it!
 unsetopt nomatch
