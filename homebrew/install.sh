@@ -24,7 +24,7 @@ brew update
 
 # autocomplete for many tools
 
-brew_packages="awscli grc ipcalc tcpint dhcping csshx gnu-tar wget nmap rbenv ruby-build mtr httpie exercism"
+brew_packages="awscli grc ipcalc tcpint dhcping csshx gnu-tar wget nmap rbenv ruby-build mtr httpie exercism jq"
 for pkg in $brew_packages; do
   brew install $pkg status
 done
