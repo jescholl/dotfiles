@@ -1,0 +1,10 @@
+#!/bin/bash
+
+nodename() {
+  local ip=$1
+  ssh "root@$ip" "hostname -f"
+}
+
+for ip in "$@"; do
+  bundle exec knife bootstrap "$ip" -N $(nodename $ip) -E production -r "role[base]"
+done
