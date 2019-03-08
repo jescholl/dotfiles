@@ -12,18 +12,26 @@
         wtf     = !$DOTFILES_ROOT/bin/git-wtf
         count   = !git shortlog -sn
         lg      = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+        sync    = fetch origin master:master
         sha     = rev-parse HEAD
+        squash  = "!f() { git rebase -i $(git merge-base --fork-point origin/master); }; f"
+        edit    = "!f() { $EDITOR $(git diff --name-only ${@:-HEAD~1}); }; f"
+        fu      = "!f() { [ -n \"${__git_ps1_branch_name}\" ]  || exit 1;  git add .; git commit -m 'foo'; git push origin \"${__git_ps1_branch_name}\"; }; f"
+        squash-all = "!f(){ git reset $(git commit-tree HEAD^{tree} -m \"${1:-A new start}\");};f"
+
 
 [color]
         diff = auto
         status = auto
         branch = auto
-        ui = true
+        #ui = true
+        ui = auto
 [status]
         showUntrackedFiles = all
 [core]
         excludesfile = ~/.gitignore
         editor = vim
+	      whitespace = trailing-space,space-before-tab,tab-in-indent
 [apply]
         whitespace = nowarn
 [mergetool]
@@ -38,3 +46,6 @@
         #
         # Setting to git 2.0 default to suppress warning message
         default = simple
+
+[fetch]
+        prune = true

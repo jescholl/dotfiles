@@ -21,12 +21,7 @@ _hosts () {
 			local khostfile host_dir exclude_hosts
 			typeset -Ua khostfiles
 			zstyle -a ":completion:${curcontext}:hosts" known-hosts-files khostfiles || khostfiles=(/etc/ssh/ssh_known_hosts ~/.ssh/known_hosts) 
-			for host_dir in $COMPLETION_HOST_DIRS; do
-			  if [[ -d $host_dir ]]; then
-			    khosts=(${(s/,/j/,/u)${(f)"$(ls $host_dir)"}//(.(e|)yaml|.pp)/});
-			    _cache_hosts+=($khosts)
-			  fi
-			done
+      _cache_hosts+=($(lshost))
 			for khostfile in $khostfiles
 			do
 				if [[ -r $khostfile ]]

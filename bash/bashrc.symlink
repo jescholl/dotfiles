@@ -1,0 +1,39 @@
+# shortcut to this dotfiles path
+export DOTFILES_ROOT=/Users/jasonscholl/home/dotfiles
+export DOTFILES_SCRATCH=$DOTFILES_ROOT/__dotfiles_scratch__
+
+#[ -d "/etc/paths.d" ] && eval $(/usr/libexec/path_helper -s)
+
+# your project folder that we can `c [tab]` to
+export PROJECTS=~/Code
+
+# Stash your environment variables in ~/.localrc. This means they'll stay out
+# of your main dotfiles repository (which may be public, like this one), but
+# you'll have access to them in your scripts.
+if [[ -a ~/.localrc ]]
+then
+  source ~/.localrc
+fi
+
+
+
+rb_prompt() {
+  ruby_version=$(rbenv version | awk '{print $1}')
+  if ! [[ -z "$ruby_version" ]]; then
+    echo "$ruby_version "
+  else
+    echo ""
+  fi
+}
+
+directory_name() {
+  echo "${PWD/#$HOME/~}"
+}
+
+precmd() {
+  __git_ps1 $'\n$(rb_prompt)$(directory_name)' $'\n› ' " (%s)"
+}
+
+
+
+eval "$(rbenv init -)"

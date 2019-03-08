@@ -1,0 +1,4 @@
+#!/bin/bash
+#echo docker run -it --rm -v "$(pwd)":/usr/src/mymaven -v "$HOME/.m2:/root/.m2" -v "$(pwd)/target:/usr/src/mymaven/target" -w /usr/src/mymaven maven:3.3-jdk-8 mvn $@
+docker run -it --rm -v "$(pwd)":/usr/src/mymaven -v "$HOME/.m2:/root/.m2" -w /usr/src/mymaven maven:3.3-jdk-8 mvn $@
+

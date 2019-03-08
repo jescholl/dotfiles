@@ -11,6 +11,23 @@ function SetBackground()
   endif
 endfunction
 
+"function Dark()
+"  if filewritable($DOTFILES_SCRATCH."/vim_background")
+"    call writefile(["dark"], $DOTFILES_SCRATCH."/vim_background")
+"    let &background = "dark"
+"  endif
+"endfunction
+
+"function Light()
+"  if filewritable($DOTFILES_SCRATCH."/vim_background")
+"    call writefile(["light"], $DOTFILES_SCRATCH."/vim_background")
+"    let &background = "light"
+"  endif
+"endfunction
+
+"command Dark  :call Dark
+"command Light :call Light
+
 autocmd BufRead,BufNewFile * call SetBackground()
 
 colorscheme solarized
@@ -85,7 +102,7 @@ nnoremap <C-l> :<C-u>ChefFindAnyVsplit<CR>
 nnoremap <C-j> :<C-u>ChefFindRelated<CR>
 
 " TABS OVER SPACES!!!
-autocmd FileType sh,c,cpp,ruby,puppet,yaml autocmd BufWritePre <buffer> :%s/\t/        /eg
+autocmd FileType sh,c,cpp,ruby,puppet,yaml autocmd BufWritePre <buffer> :%s/\t/    /eg
 " trim trailing whitespace on exit
 autocmd FileType sh,c,cpp,java,php,ruby,eruby,yaml autocmd BufWritePre <buffer> :%s/\s\+$//e
 
@@ -101,6 +118,8 @@ nmap <leader>N ggi# <C-R>=strftime("%Y-%m-%d - %A")<CR><CR><CR>
 
 " custom file extensions
 autocmd BufRead,BufNewFile *.eyaml set filetype=yaml
+autocmd BufRead,BufNewFile Jenkinsfile set filetype=groovy
+autocmd BufRead,BufNewFile *Dockerfile* set filetype=dockerfile
 
 
 "let g:syntastic_puppet_checkers = ['puppet-lint']
@@ -109,7 +128,7 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 
-let g:syntastic_sh_shellcheck_args="-x -e SC1090 -e SC2181"
+let g:syntastic_sh_shellcheck_args="-e SC1090 -e SC2181"
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
