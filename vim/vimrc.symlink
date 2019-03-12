@@ -74,8 +74,9 @@ set gdefault
 """filetype indent plugin on
 filetype indent on
 
+"NOTE: I didn't like this when it finally started working
 "use shared clibpoard
-set clipboard=unnamed
+"set clipboard=unnamed
 
 "better tab completion and completion menu for vim commands
 set wildmenu
