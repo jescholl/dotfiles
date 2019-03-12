@@ -59,6 +59,8 @@ set hlsearch
 set incsearch
 " Highlight matching ([{}])
 set showmatch
+" Enable backspace everywhere
+set backspace=indent,eol,start
 
 " Show filename in the window titlebar
 set title
