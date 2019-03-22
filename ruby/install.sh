@@ -13,7 +13,7 @@ then
   brew install ruby-build > /tmp/ruby-build-install.log
 fi
 
-for version in 2.2.3 2.4.3; do
+for version in 2.4.3 2.5.0 2.5.5; do
         if [ `rbenv versions | grep "^\s*$version\s*$"` ]; then
           success "skipped rbenv ruby $version, already installed"
                 continue
@@ -28,6 +28,6 @@ for version in 2.2.3 2.4.3; do
         fi
 done
 
-echo 2.4.3 > ~/.rbenv/version
+echo 2.5 > ~/.rbenv/version
 
 rbenv rehash
