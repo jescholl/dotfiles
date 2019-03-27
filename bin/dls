@@ -1,0 +1,55 @@
+#!/bin/bash
+set -o pipefail
+
+err() {
+  echo $@ >&2
+}
+
+show_help() {
+  cat <<EOH
+
+Usage: ${0##*/} [image]
+
+List available images in the docker registry
+
+DOCKER_REGISTRY:    Registry URL
+EOH
+}
+
+query() {
+  curl -fs "${extra_curl_opts}" "$DOCKER_REGISTRY/v2/$1"
+}
+
+get_sha() {
+  image=$1
+  tag=${2:-latest}
+  extra_curl_opts='-HAccept: application/vnd.docker.distribution.manifest.v2+json'
+  query "${image}/manifests/${tag}" | jq -re '(.config.digest / ":")[1]'
+}
+
+list_tags() {
+  query "$image/tags/list" | jq -re '.tags[]'
+}
+
+list_images() {
+  query "_catalog?n=10000" | jq -re '.repositories[]'
+}
+
+[[ "$@" =~ -h|--help ]] && show_help && exit
+
+if [ "$#" == "0" ]; then
+  list_images || show_help
+  exit 1
+fi
+
+for image in $@; do
+  if ! tags="$(list_tags $image)"; then
+    err "No tags found for image: $image"
+    exit 2
+  fi
+  max_length=$(echo "$tags" | awk '{print length($1)}' | sort -n | tail -n 1)
+  echo "$image"
+  for tag in $tags; do
+    printf "  %-${max_length}s $(get_sha $image $tag)\n" $tag
+  done
+done
