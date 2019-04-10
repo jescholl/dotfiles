@@ -1,3 +1,9 @@
+###########################################################################################
+# DO NOT EDIT ~/.zshrc                                                                    #
+# Modifications should instead be made to #DOTFILES_ROOT_PATH#/zsh/zshrc.symlink.template #
+###########################################################################################
+
+
 # shortcut to this dotfiles path
 export DOTFILES_ROOT=#DOTFILES_ROOT_PATH#
 export DOTFILES_SCRATCH=$DOTFILES_ROOT/__dotfiles_scratch__
@@ -48,3 +54,6 @@ unset config_files
 #[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 # I want to use [ and ] damn it!
 unsetopt nomatch
+
+# source `.zshrc.local` if it exists
+[ -f "${HOME}/.zshrc.local" ] && . "${HOME}/.zshrc.local"

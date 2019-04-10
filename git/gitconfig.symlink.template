@@ -1,5 +1,7 @@
-# Sample gitconfig
-#
+###############################################################################################
+# DO NOT EDIT ~/.gitconfig                                                                    #
+# Modifications should instead be made to #DOTFILES_ROOT_PATH#/git/gitconfig.symlink.template #
+###############################################################################################
 
 [user]
         name = #AUTHORNAME#
