@@ -26,7 +26,7 @@ brew update
 
 brew_packages="awscli grc ipcalc tcpint dhcping csshx gnu-tar wget nmap rbenv ruby-build mtr httpie exercism jq ag"
 for pkg in $brew_packages; do
-  brew install $pkg status
+  brew install $pkg
 done
 
 exit 0
