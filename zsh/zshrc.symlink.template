@@ -1,11 +1,11 @@
-###########################################################################################
-# DO NOT EDIT ~/.zshrc                                                                    #
-# Modifications should instead be made to #DOTFILES_ROOT_PATH#/zsh/zshrc.symlink.template #
-###########################################################################################
+##########################
+# DO NOT EDIT ~/.zshrc
+# Modifications should instead be made to #DOTFILES_ROOT#/zsh/zshrc.symlink.template
+##########################
 
 
 # shortcut to this dotfiles path
-export DOTFILES_ROOT=#DOTFILES_ROOT_PATH#
+export DOTFILES_ROOT=#DOTFILES_ROOT#
 export DOTFILES_SCRATCH=$DOTFILES_ROOT/__dotfiles_scratch__
 
 # your project folder that we can `c [tab]` to

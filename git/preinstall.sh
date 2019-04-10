@@ -1,6 +1,6 @@
 if ! [ -f $DOTFILES_SCRATCH/gitconfig.symlink ]
 then
-	source $DOTFILES_ROOT/bootstrap/functions
+    source $DOTFILES_ROOT/bootstrap/functions
   git_credential='cache'
   if [ "$(uname -s)" == "Darwin" ]
   then
@@ -12,7 +12,12 @@ then
   user ' - What is your github author email?'
   read -e git_authoremail
 
-  sed -e "s/#AUTHORNAME#/$git_authorname/g" -e "s/#AUTHOREMAIL#/$git_authoremail/g" -e "s/#GIT_CREDENTIAL_HELPER#/$git_credential/g" $DOTFILES_ROOT/git/gitconfig.symlink.template > $DOTFILES_SCRATCH/gitconfig.symlink
+  sed \
+    -e "s/#AUTHORNAME#/$git_authorname/g" \
+    -e "s/#AUTHOREMAIL#/$git_authoremail/g" \
+    -e "s/#GIT_CREDENTIAL_HELPER#/$git_credential/g" \
+    -e "s!#DOTFILES_ROOT#!$DOTFILES_ROOT!g" \
+    $DOTFILES_ROOT/git/gitconfig.symlink.template > $DOTFILES_SCRATCH/gitconfig.symlink
 
   success 'gitconfig'
 fi
