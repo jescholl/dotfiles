@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Only install homebrew if we're on a Mac
 if [ "$(uname -s)" != "Darwin" ]; then

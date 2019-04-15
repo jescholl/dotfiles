@@ -1,3 +1,4 @@
+#!/bin/bash
 if ! [ -f $DOTFILES_SCRATCH/gitconfig.symlink ]
 then
     source $DOTFILES_ROOT/bootstrap/functions
@@ -19,5 +20,5 @@ then
     -e "s!#DOTFILES_ROOT#!$DOTFILES_ROOT!g" \
     $DOTFILES_ROOT/git/gitconfig.symlink.template > $DOTFILES_SCRATCH/gitconfig.symlink
 
-  success 'gitconfig'
+  log_success 'gitconfig'
 fi

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 source ${DOTFILES_ROOT}/bootstrap/functions
 GOVERSION=${GOVERSION:-"1.9.3"}
 GOROOT=${GOROOT:-"$HOME/go_$GOVERSION"}
@@ -11,7 +11,7 @@ if [ ! -f $GOROOT/bin/go ]; then
 fi
 
 if [ -f "$GOROOT/bin/go" ]; then
-  success "Successfully installed Go to $GOROOT"
+  log_success "Successfully installed Go to $GOROOT"
 else
-  fail "Go instalation failed"
+  log_fail "Go instalation failed"
 fi

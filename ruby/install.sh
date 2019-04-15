@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 source ${DOTFILES_ROOT}/bootstrap/functions
 
 if test ! $(which rbenv)
@@ -15,16 +15,16 @@ fi
 
 for version in 2.5.5; do
   if [ `rbenv versions | grep "^\s*$version\s*$"` ]; then
-    success "skipped rbenv ruby $version, already installed"
+    log_success "skipped rbenv ruby $version, already installed"
     continue
   fi
 
   rbenv install $version
 
   if [ $? == 0 ]; then
-    success "installed rbenv ruby $version"
+    log_success "installed rbenv ruby $version"
   else
-    fail "failed to install rbenv ruby $version"
+    log_fail "failed to install rbenv ruby $version"
   fi
 done
 

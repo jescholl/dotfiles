@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-info () {
+log_info () {
   printf "  [ \033[00;34m..\033[0m ] $1\n"
 }
 
@@ -8,11 +8,11 @@ user () {
   printf "\r  [ \033[0;33m?\033[0m ] $1 "
 }
 
-success () {
+log_success () {
   printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
 }
 
-fail () {
+log_fail () {
   printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
   echo ''
   exit
@@ -72,25 +72,25 @@ link_file () {
     if [ "$overwrite" == "true" ]
     then
       rm -rf "$dst"
-      success "removed $dst"
+      log_success "removed $dst"
     fi
 
     if [ "$backup" == "true" ]
     then
       mv "$dst" "${dst}.backup"
-      success "moved $dst to ${dst}.backup"
+      log_success "moved $dst to ${dst}.backup"
     fi
 
     if [ "$skip" == "true" ]
     then
-      success "skipped $src"
+      log_success "skipped $src"
     fi
   fi
 
   if [ "$skip" != "true" ]  # "false" or empty
   then
     ln -s "$1" "$2"
-    success "linked $1 to $2"
+    log_success "linked $1 to $2"
   fi
 }
 
@@ -113,11 +113,11 @@ clone_repos() {
         git fetch origin -q && \
         git clean -fq && \
         git reset --hard origin/master -q && popd > /dev/null)
-      
+
       if [ $? == 0 ]; then
-        success "Cloned ${plugin}"
+        log_success "Cloned ${plugin}"
       else
-        fail "Failed to clone ${plugin}"
+        log_fail "Failed to clone ${plugin}"
       fi
     done
   done
@@ -126,7 +126,7 @@ clone_repos() {
 link_dotfiles () {
   local overwrite_all=false backup_all=false skip_all=false
 
-  for src in $(find -E -H "$DOTFILES_ROOT" | perl -nle 'print if /\.symlink$/ and not /\.symlink\/./' | except_vim_undo)
+  for src in $(find -H "$DOTFILES_ROOT" | perl -nle 'print if /\.symlink$/ and not /\.symlink\/./' | except_vim_undo)
   do
     dst="$HOME/.$(basename "${src%.*}")"
     link_file "$src" "$dst"
@@ -135,8 +135,8 @@ link_dotfiles () {
 
 run_installer() {
   for installer in $(find -H "$DOTFILES_ROOT" -name $1 | except_vim_undo)
-	do
-		info "executing $installer"
-		sh -c "${installer}"
-	done
+    do
+    	log_info "executing $installer"
+    	sh -c "${installer}"
+    done
 }

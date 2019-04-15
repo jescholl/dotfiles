@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ "$(uname -s)" != "Darwin" ]; then
   exit 0
 fi

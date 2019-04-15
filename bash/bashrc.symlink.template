@@ -1,5 +1,13 @@
+##########################
+# DO NOT EDIT ~/.bashrc
+# Modifications should instead be made to #DOTFILES_ROOT#/bash/bashrc.symlink.template
+##########################
+
+
 # shortcut to this dotfiles path
-export DOTFILES_ROOT=/Users/jasonscholl/home/dotfiles
+export DOTFILES_ROOT=#DOTFILES_ROOT#
+
+# shortcut to this dotfiles path
 export DOTFILES_SCRATCH=$DOTFILES_ROOT/__dotfiles_scratch__
 
 #[ -d "/etc/paths.d" ] && eval $(/usr/libexec/path_helper -s)

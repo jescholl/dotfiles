@@ -12,20 +12,20 @@ source $DOTFILES_ROOT/bootstrap/functions
 
 echo ''
 
-info "Running installers"
+log_info "Running installers"
 run_installer "preinstall.sh"
 
-info "Linking dotfiles"
+log_info "Linking dotfiles"
 link_dotfiles
 
-info "Cloning repos"
+log_info "Cloning repos"
 clone_repos
 
-info "Running installers"
+log_info "Running installers"
 run_installer "install.sh"
 
-info "Running postinstallers"
+log_info "Running postinstallers"
 run_installer "postinstall.sh"
 
 echo ''
-success '  All installed!'
+log_success '  All installed!'

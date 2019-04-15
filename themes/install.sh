@@ -1,10 +1,12 @@
+#!/bin/bash
+source $DOTFILES_ROOT/bootstrap/functions
+
 if [ "$(uname -s)" != "Darwin" ]; then
-  info "skipping themes, OS not currently supported"
+  log_info "skipping themes, OS not currently supported"
   exit 0
 fi
 
 # install solarized
-source $DOTFILES_ROOT/bootstrap/functions
 
 # vim - pathogen
 # pathogen combined with the symlink in vim/bundle take care of this
@@ -12,14 +14,14 @@ source $DOTFILES_ROOT/bootstrap/functions
 
 # iTerm
 if [ -f "$DOTFILES_SCRATCH/iterm2_solarized.loaded" ]; then
-  success "skipped iTerm2 Solarized Dark theme, already loaded"
+  log_success "skipped iTerm2 Solarized Dark theme, already loaded"
 else
   open "${DOTFILES_ROOT}/themes/solarized/iterm2-colors-solarized/Solarized Dark.itermcolors" && \
           touch $DOTFILES_SCRATCH/iterm2_solarized.loaded
         if [ $? == 0 ]; then
-          success "loaded iTerm2 Solarized Dark theme"
+          log_success "loaded iTerm2 Solarized Dark theme"
   else
-    fail "failed to load iTerm2 Solarized Dark theme"
+    log_fail "failed to load iTerm2 Solarized Dark theme"
         fi
 fi
 
@@ -71,13 +73,13 @@ end tell
 EOD
 
 if [ -f "$DOTFILES_SCRATCH/terminal_app_solarized.loaded" ]; then
-  success "skipped Terminal.app Solarized Dark theme, already loaded"
+  log_success "skipped Terminal.app Solarized Dark theme, already loaded"
 else
         osascript -e "$terminal_app_solarized_dark" && \
           touch $DOTFILES_SCRATCH/terminal_app_solarized.loaded
         if [ $? == 0 ]; then
-          success "loaded Terminal.app Solarized Dark theme"
+          log_success "loaded Terminal.app Solarized Dark theme"
         else
-                fail "failed to load Terminal.app Solarized Dark theme"
+                log_fail "failed to load Terminal.app Solarized Dark theme"
         fi
 fi
