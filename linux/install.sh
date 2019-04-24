@@ -13,7 +13,7 @@ sudo apt update
 
 # FIXME: install ruby-build (and rbenv?) from git
 
-packages="awscli grc ipcalc tcpint dhcping csshx gnu-tar wget nmap rbenv ruby-build mtr httpie exercism jq ag autojump zsh"
+packages="awscli grc ipcalc tcpint dhcping csshx gnu-tar wget nmap rbenv ruby-build mtr httpie exercism jq ag autojump zsh xsel"
 for pkg in $packages; do
   sudo apt install $pkg
 done
