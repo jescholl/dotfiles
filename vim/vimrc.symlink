@@ -104,6 +104,9 @@ nnoremap <C-k> :<C-u>ChefFindAny<CR>
 nnoremap <C-l> :<C-u>ChefFindAnyVsplit<CR>
 nnoremap <C-j> :<C-u>ChefFindRelated<CR>
 
+inoremap pdb import pdb; pdb.set_trace()
+inoremap bpry require pry; binding.pry
+
 " TABS OVER SPACES!!!
 autocmd FileType sh,c,cpp,ruby,puppet,yaml autocmd BufWritePre <buffer> :%s/\t/    /eg
 " trim trailing whitespace on exit
