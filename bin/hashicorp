@@ -1,14 +1,18 @@
 #!/bin/bash
 
+set -o pipefail
+
 name=$1
 version=$2
 
-if [ ! -f "~/bin/hashicorp/${name}/${version}" ]; then
+tools_dir="${DOTFILES_SCRATCH}/tools"
+bin_dir="$DOTFILES_SCRATCH/bin"
+
+
+if [ ! -f "${tools_dir}/${name}/${version}" ]; then
   os=${os:-$(uname -s | tr '[:upper:]' '[:lower:]')}
   arch=${arch:-$(uname -m)}
-  echo $arch
   if [ "$arch" = "x86_64" ]; then arch="amd64"; fi
-  echo $arch
 
   build_dir=${build_dir-${TMPDIR:-"/tmp"}}
 
@@ -19,9 +23,11 @@ if [ ! -f "~/bin/hashicorp/${name}/${version}" ]; then
 
   bash -c "cd ${out_dir} && wget ${download_url} -O ./${zip_name} && unzip ${zip_name}"
 
-  mkdir -p ~/bin/hashicorp/${name}/
-  mv "${out_dir}/${name}" ~/bin/hashicorp/${name}/${version}
+  mkdir -p "${tools_dir}/${name}/"
+  mkdir -p "${bin_dir}"
+  mv "${out_dir}/${name}" "${tools_dir}/${name}/${version}"
+
+  rm -rf "${out_dir}"
 fi
 
-ln -fs ~/bin/hashicorp/${name}/${version} ~/bin/${name}
-rm -rf "${out_dir}"
+ln -fs "${tools_dir}/${name}/${version}" "${bin_dir}/${name}"
