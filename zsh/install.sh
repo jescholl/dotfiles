@@ -1,2 +1,2 @@
 #!/bin/bash
-[ "$SHELL" = "$(which zsh)" ] || chsh -s "$(which zsh)"
+[ "$SHELL" = "$(command -v zsh)" ] || chsh -s "$(command -v zsh)"

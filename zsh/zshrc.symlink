@@ -1,12 +1,5 @@
-##########################
-# DO NOT EDIT ~/.zshrc
-# Modifications should instead be made to #DOTFILES_ROOT#/zsh/zshrc.symlink.template
-##########################
-
-
-# shortcut to this dotfiles path
-export DOTFILES_ROOT=#DOTFILES_ROOT#
-export DOTFILES_SCRATCH=$DOTFILES_ROOT/__dotfiles_scratch__
+# Bring in dotfiles environment variables
+source "${HOME}/.env.dotfiles.sh"
 
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
@@ -14,24 +7,19 @@ export PROJECTS=~/Code
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
 # you'll have access to them in your scripts.
-if [[ -a ~/.localrc ]]
-then
-  source ~/.localrc
-fi
+[ -f "$HOME/.env.local.sh" ] && source "${HOME}/.env.local.sh"
 
 # all of our zsh files
 typeset -U config_files
 config_files=($DOTFILES_ROOT/**/*.zsh)
 
 # load the path files
-for file in ${(M)config_files:#*/path.zsh}
-do
+for file in ${(M)config_files:#*/path.zsh}; do
   source $file
 done
 
 # load everything but the path and completion files
-for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
-do
+for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
   source $file
 done
 
@@ -40,8 +28,7 @@ autoload -U compinit
 compinit
 
 # load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion.zsh}
-do
+for file in ${(M)config_files:#*/completion.zsh}; do
   source $file
 done
 
@@ -55,5 +42,5 @@ unset config_files
 # I want to use [ and ] damn it!
 unsetopt nomatch
 
-# source `.zshrc.local` if it exists
-[ -f "${HOME}/.zshrc.local" ] && . "${HOME}/.zshrc.local"
+# source `.env.local_zsh.sh` if it exists
+[ -f "${HOME}/.env.local_zsh.sh" ] && source "${HOME}/.env.local_zsh.sh"

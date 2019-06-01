@@ -1,14 +1,6 @@
-##########################
-# DO NOT EDIT ~/.bashrc
-# Modifications should instead be made to #DOTFILES_ROOT#/bash/bashrc.symlink.template
-##########################
-
-
-# shortcut to this dotfiles path
-export DOTFILES_ROOT=#DOTFILES_ROOT#
-
-# shortcut to this dotfiles path
-export DOTFILES_SCRATCH=$DOTFILES_ROOT/__dotfiles_scratch__
+#!/bin/bash
+# Bring in dotfiles environment variables
+source "${HOME}/.env.dotfiles.sh"
 
 #[ -d "/etc/paths.d" ] && eval $(/usr/libexec/path_helper -s)
 
@@ -18,15 +10,11 @@ export PROJECTS=~/Code
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
 # you'll have access to them in your scripts.
-if [[ -a ~/.localrc ]]; then
-  source ~/.localrc
-fi
-
-
+[ -f "$HOME/.localrc" ] && source "${HOME}/.localrc"
 
 rb_prompt() {
   ruby_version=$(rbenv version | awk '{print $1}')
-  if ! [[ -z "$ruby_version" ]]; then
+  if [[ -n "$ruby_version" ]]; then
     echo "$ruby_version "
   else
     echo ""
@@ -40,7 +28,5 @@ directory_name() {
 precmd() {
   __git_ps1 $'\n$(rb_prompt)$(directory_name)' $'\n› ' " (%s)"
 }
-
-
 
 eval "$(rbenv init -)"
