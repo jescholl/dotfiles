@@ -1,5 +1,5 @@
 #!/bin/bash
-source $DOTFILES_ROOT/bootstrap/functions
+source "$DOTFILES_ROOT/bootstrap/functions"
 
 if [ "$(uname -s)" != "Darwin" ]; then
   log_info "skipping themes, OS not currently supported"
@@ -17,16 +17,16 @@ if [ -f "$DOTFILES_SCRATCH/iterm2_solarized.loaded" ]; then
   log_success "skipped iTerm2 Solarized Dark theme, already loaded"
 else
   open "${DOTFILES_ROOT}/themes/solarized/iterm2-colors-solarized/Solarized Dark.itermcolors" && \
-          touch $DOTFILES_SCRATCH/iterm2_solarized.loaded
-        if [ $? == 0 ]; then
-          log_success "loaded iTerm2 Solarized Dark theme"
+    touch "$DOTFILES_SCRATCH/iterm2_solarized.loaded"
+  if [ $? == 0 ]; then
+    log_success "loaded iTerm2 Solarized Dark theme"
   else
     log_fail "failed to load iTerm2 Solarized Dark theme"
-        fi
+  fi
 fi
 
 # Terminal.app
-read -d '' terminal_app_solarized_dark <<EOD
+read -rd '' terminal_app_solarized_dark <<EOD
 
 tell application "Terminal"
 
@@ -41,7 +41,7 @@ tell application "Terminal"
         (* Open the custom theme so that it gets added to the list
            of available terminal themes (note: this will open two
            additional terminal windows). *)
-        do shell script "open '${DOTFILES_ROOT}/themes/solarized/osx-terminal.app-colors-solarized/xterm-256color/" & themeName & ".terminal'"
+         do shell script "open '${DOTFILES_ROOT}/themes/solarized/osx-terminal.app-colors-solarized/xterm-256color/" & themeName & ".terminal'"
 
         (* Wait a little bit to ensure that the custom theme is added. *)
         delay 1
@@ -62,24 +62,24 @@ tell application "Terminal"
                 (* Change the theme for the initial opened terminal windows
                    to remove the need to close them in order for the custom
                    theme to be applied. *)
-                else
+                 else
                         set current settings of tabs of (every window whose id is windowID) to settings set themeName
-                end if
+                      end if
 
-        end repeat
+                    end repeat
 
-end tell
+                  end tell
 
 EOD
 
 if [ -f "$DOTFILES_SCRATCH/terminal_app_solarized.loaded" ]; then
   log_success "skipped Terminal.app Solarized Dark theme, already loaded"
 else
-        osascript -e "$terminal_app_solarized_dark" && \
-          touch $DOTFILES_SCRATCH/terminal_app_solarized.loaded
-        if [ $? == 0 ]; then
-          log_success "loaded Terminal.app Solarized Dark theme"
-        else
-                log_fail "failed to load Terminal.app Solarized Dark theme"
-        fi
+  osascript -e "$terminal_app_solarized_dark" && \
+    touch "$DOTFILES_SCRATCH/terminal_app_solarized.loaded"
+  if [ $? == 0 ]; then
+    log_success "loaded Terminal.app Solarized Dark theme"
+  else
+    log_fail "failed to load Terminal.app Solarized Dark theme"
+  fi
 fi

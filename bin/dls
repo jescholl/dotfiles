@@ -2,7 +2,7 @@
 set -o pipefail
 
 err() {
-  echo $@ >&2
+  echo "$*" >&2
 }
 
 show_help() {
@@ -35,21 +35,21 @@ list_images() {
   query "_catalog?n=10000" | jq -re '.repositories[]'
 }
 
-[[ "$@" =~ -h|--help ]] && show_help && exit
+[[ "$*" =~ -h|--help ]] && show_help && exit
 
 if [ "$#" == "0" ]; then
   list_images || show_help
   exit 1
 fi
 
-for image in $@; do
-  if ! tags="$(list_tags $image)"; then
+for image in "$@"; do
+  if ! tags="$(list_tags "$image")"; then
     err "No tags found for image: $image"
     exit 2
   fi
   max_length=$(echo "$tags" | awk '{print length($1)}' | sort -n | tail -n 1)
   echo "$image"
   for tag in $tags; do
-    printf "  %-${max_length}s $(get_sha $image $tag)\n" $tag
+    printf "  %-${max_length}s $(get_sha "$image" "$tag")\n" "$tag"
   done
 done

@@ -6,5 +6,5 @@ nodename() {
 }
 
 for ip in "$@"; do
-  bundle exec knife bootstrap "$ip" -N $(nodename $ip) -E production -r "role[base]"
+  bundle exec knife bootstrap "$ip" -N "$(nodename "$ip")" -E production -r "role[base]"
 done

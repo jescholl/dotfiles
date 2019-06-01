@@ -12,8 +12,7 @@ fi
 # using Homebrew.
 
 # Check for Homebrew
-if test ! $(which brew)
-then
+if command -v brew > /dev/null; then
   echo "  Installing Homebrew for you."
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
@@ -26,7 +25,5 @@ brew update
 
 brew_packages="awscli grc ipcalc tcpint dhcping csshx gnu-tar wget nmap rbenv ruby-build mtr httpie exercism jq ag autojump"
 for pkg in $brew_packages; do
-  brew install $pkg
+  brew install "$pkg"
 done
-
-exit 0

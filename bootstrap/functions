@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
 log_info () {
-  printf "  [ \033[00;34m..\033[0m ] $1\n"
+  printf "  [ \033[00;34m..\033[0m ] %s\n" "$1"
 }
 
 user () {
-  printf "\r  [ \033[0;33m?\033[0m ] $1 "
+  printf "\r  [ \033[0;33m?\033[0m ] %s " "$1"
 }
 
 log_success () {
-  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] %s\n" "$1"
 }
 
 log_fail () {
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
   echo ''
   exit
 }
@@ -22,27 +22,20 @@ log_fail () {
 link_file () {
   local src=$1 dst=$2
 
-  local overwrite= backup= skip=
-  local action=
+  local overwrite='' backup='' skip=''
+  local action='' current_src=''
 
-  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
-  then
+  if [ -f "$dst" ] ||  [ -d "$dst" ] || [ -L "$dst" ]; then
+    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]; then
+      current_src="$(readlink "$dst")"
 
-    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
-    then
-
-      local currentSrc="$(readlink $dst)"
-
-      if [ "$currentSrc" == "$src" ]
-      then
-
+      if [ "$current_src" == "$src" ]; then
         skip=true;
-
       else
 
         user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
-        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action
+          [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+        read -rn 1 action
 
         case "$action" in
           o )
@@ -60,35 +53,29 @@ link_file () {
           * )
             ;;
         esac
-
       fi
-
     fi
 
     overwrite=${overwrite:-$overwrite_all}
     backup=${backup:-$backup_all}
     skip=${skip:-$skip_all}
 
-    if [ "$overwrite" == "true" ]
-    then
+    if [ "$overwrite" == "true" ]; then
       rm -rf "$dst"
       log_success "removed $dst"
     fi
 
-    if [ "$backup" == "true" ]
-    then
+    if [ "$backup" == "true" ]; then
       mv "$dst" "${dst}.backup"
       log_success "moved $dst to ${dst}.backup"
     fi
 
-    if [ "$skip" == "true" ]
-    then
+    if [ "$skip" == "true" ]; then
       log_success "skipped $src"
     fi
   fi
 
-  if [ "$skip" != "true" ]  # "false" or empty
-  then
+  if [ "$skip" != "true" ]; then  # "false" or empty
     ln -s "$1" "$2"
     log_success "linked $1 to $2"
   fi
@@ -102,14 +89,16 @@ clone_repos() {
   local dir=
   local file=
   local repo_dir=
-  for git_list in $(find -H "$DOTFILES_ROOT" -name "*.git_list" | except_vim_undo); do
-    file=$(basename -s ".git_list" $git_list)
-    dir=$(basename $(dirname $git_list))
-    for plugin in $(cat ${git_list}); do
-      repo_dir=${DOTFILES_SCRATCH}/${dir}-${file}/$(echo $plugin | sed 's/^.*\///')
 
-      git clone -q "https://${plugin}" $repo_dir 2> /dev/null ||
-        (pushd > /dev/null $repo_dir && \
+  for git_list in $(find -H "$DOTFILES_ROOT" -name "*.git_list" | except_vim_undo); do
+    file=$(basename -s ".git_list" "$git_list")
+    dir=$(basename "$(dirname "$git_list")")
+    while read -r plugin; do
+      repo_dir="${DOTFILES_SCRATCH}/${dir}-${file}/$(echo "$plugin" | sed 's/^.*\///')"
+
+      # shellcheck disable=SC2164 # popd failures are accounted for below
+      git clone -q "https://${plugin}" "$repo_dir" 2> /dev/null ||
+        (pushd > /dev/null "$repo_dir" && \
         git fetch origin -q && \
         git clean -fq && \
         git reset --hard origin/master -q && popd > /dev/null)
@@ -119,24 +108,22 @@ clone_repos() {
       else
         log_fail "Failed to clone ${plugin}"
       fi
-    done
+    done < "$git_list"
   done
 }
 
 link_dotfiles () {
   local overwrite_all=false backup_all=false skip_all=false
 
-  for src in $(find -H "$DOTFILES_ROOT" | perl -nle 'print if /\.symlink$/ and not /\.symlink\/./' | except_vim_undo)
-  do
+  for src in $(find -H "$DOTFILES_ROOT" | perl -nle 'print if /\.symlink$/ and not /\.symlink\/./' | except_vim_undo); do
     dst="$HOME/.$(basename "${src%.*}")"
     link_file "$src" "$dst"
   done
 }
 
 run_installer() {
-  for installer in $(find -H "$DOTFILES_ROOT" -name $1 | except_vim_undo)
-    do
-    	log_info "executing $installer"
-    	sh -c "${installer}"
-    done
+  for installer in $(find -H "$DOTFILES_ROOT" -name "$1" | except_vim_undo); do
+    log_info "executing $installer"
+    sh -c "${installer}"
+  done
 }
