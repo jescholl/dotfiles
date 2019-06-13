@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "$(uname -s)" = "Linux" ]; then
+  gnome-screensaver-command -l
+else
+  /System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend
+fi
