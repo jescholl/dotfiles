@@ -16,7 +16,7 @@ if ! [ -f "$DOTFILES_SCRATCH/gitconfig.symlink" ]; then
     -e "s/#AUTHOREMAIL#/$git_authoremail/g" \
     -e "s/#GIT_CREDENTIAL_HELPER#/$git_credential/g" \
     -e "s!#DOTFILES_ROOT#!$DOTFILES_ROOT!g" \
-    "$DOTFILES_ROOT/git/gitconfig.symlink.template" > "$DOTFILES_SCRATCH/gitconfig.symlink"
+    "$DOTFILES_ROOT/git/gitconfig.dynamic.symlink.template" > "$DOTFILES_SCRATCH/gitconfig.dynamic.symlink"
 
   log_success 'gitconfig'
 fi

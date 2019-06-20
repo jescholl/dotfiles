@@ -1,14 +1,5 @@
-##########################
-# DO NOT EDIT ~/.gitconfig
-# Modifications should instead be made to #DOTFILES_ROOT#/git/gitconfig.symlink.template
-##########################
-
-[user]
-        name = #AUTHORNAME#
-        email = #AUTHOREMAIL#
-        signingkey = #AUTHOREMAIL#
-[credential]
-        helper = #GIT_CREDENTIAL_HELPER#
+[include]
+        path    = .gitconfig.dynamic
 [alias]
         co      = checkout
         wtf     = !$DOTFILES_ROOT/bin/git-wtf
