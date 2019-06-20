@@ -4,10 +4,6 @@ source "${HOME}/.env.dotfiles.sh"
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
 
-# Stash your environment variables in ~/.localrc. This means they'll stay out
-# of your main dotfiles repository (which may be public, like this one), but
-# you'll have access to them in your scripts.
-[ -f "$HOME/.env.local.sh" ] && source "${HOME}/.env.local.sh"
 
 # all of our zsh files
 typeset -U config_files
@@ -41,6 +37,11 @@ unset config_files
 #[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 # I want to use [ and ] damn it!
 unsetopt nomatch
+
+# Stash your environment variables in ~/.localrc. This means they'll stay out
+# of your main dotfiles repository (which may be public, like this one), but
+# you'll have access to them in your scripts.
+[ -f "$HOME/.env.local.sh" ] && source "${HOME}/.env.local.sh"
 
 # source `.env.local_zsh.sh` if it exists
 [ -f "${HOME}/.env.local_zsh.sh" ] && source "${HOME}/.env.local_zsh.sh"
