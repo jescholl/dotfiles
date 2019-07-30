@@ -1,0 +1,30 @@
+#!/bin/bash
+func_path="$(mktemp)"
+cat <<'EOT' > "$func_path"
+def sorted_walk(f):
+  . as $in
+  | if type == "object" then
+      reduce keys[] as $key
+        ( {}; . + { ($key):  ($in[$key] | sorted_walk(f)) } ) | f
+  elif type == "array" then map( sorted_walk(f) ) | f
+  else f
+  end;
+
+def normalize: sorted_walk(if type == "array" then sort else . end);
+
+normalize
+EOT
+
+
+
+
+if [ "$#" -eq 1 ]; then
+  file_contents="$(cat "$1")"
+else
+  file_contents=$(cat)
+fi
+
+
+echo "$file_contents" | jq -S -f "$func_path"
+
+rm "$func_path"
