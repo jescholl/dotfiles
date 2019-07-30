@@ -5,4 +5,6 @@ from_class,to_class = File.basename(__FILE__).split('2').map do |class_name|
   Object.const_get(class_name.upcase)
 end
 
-puts to_class.dump(from_class.parse(ARGF.read))
+load_method = from_class.respond_to?(:safe_load) ? :safe_load : :load
+
+puts to_class.dump(from_class.send(load_method, ARGF.read))
