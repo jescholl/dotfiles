@@ -1,5 +1,5 @@
 #!/bin/bash
-source $DOTFILES_SCRATCH/bootstrap/functions
+source "$DOTFILES_ROOT/bootstrap/functions"
 if test ! $(which brew); then
   log_info "Homebrew not installed, skipping"
 elif test ! $(python --version | grep "Python 3"); then

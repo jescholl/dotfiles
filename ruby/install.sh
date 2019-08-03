@@ -26,6 +26,6 @@ for version in 2.5.5; do
   fi
 done
 
-echo 2.5 > ~/.rbenv/version
+echo 2.5.5 > ~/.rbenv/version
 
 rbenv rehash
