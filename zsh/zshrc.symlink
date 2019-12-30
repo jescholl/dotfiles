@@ -1,9 +1,14 @@
+PROFILE_STARTUP=false
+if [[ "$PROFILE_STARTUP" == true ]]; then
+    # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+    PS4=$'%D{%M%S%.} %N:%i> '
+    exec 3>&2 2>$HOME/startlog.$$
+    setopt xtrace prompt_subst
+fi
+
+
 # Bring in dotfiles environment variables
 source "${HOME}/.env.dotfiles.sh"
-
-# your project folder that we can `c [tab]` to
-export PROJECTS=~/Code
-
 
 # all of our zsh files
 typeset -U config_files
@@ -22,6 +27,11 @@ done
 # initialize autocomplete here, otherwise functions won't be loaded
 autoload -U compinit
 compinit
+_comp_options+=(globdots) # include dot files
+
+# load bash-compatable completions
+autoload -U +X bashcompinit && bashcompinit
+source $DOTFILES_ROOT/bash/completions.sh
 
 # load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}; do
@@ -35,6 +45,7 @@ unset config_files
 
 ## configure autojump
 #[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
 # I want to use [ and ] damn it!
 unsetopt nomatch
 
@@ -45,5 +56,11 @@ unsetopt nomatch
 
 # source `.env.local_zsh.sh` if it exists
 [ -f "${HOME}/.env.local_zsh.sh" ] && source "${HOME}/.env.local_zsh.sh"
+
+if [[ "$PROFILE_STARTUP" == true ]]; then
+    unsetopt xtrace
+    exec 3>&-
+    exec 2>&3
+fi
 
 return 0
