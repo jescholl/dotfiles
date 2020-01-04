@@ -124,7 +124,7 @@ nmap <leader>N ggi# <C-R>=strftime("%Y-%m-%d - %A")<CR><CR><CR>
 
 " custom file extensions
 autocmd BufRead,BufNewFile *.eyaml set filetype=yaml
-autocmd BufRead,BufNewFile Jenkinsfile set filetype=groovy
+autocmd BufRead,BufNewFile *Jenkinsfile* set filetype=groovy
 autocmd BufRead,BufNewFile *Dockerfile* set filetype=dockerfile
 
 
