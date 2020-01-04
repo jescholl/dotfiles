@@ -81,6 +81,27 @@ link_file () {
   fi
 }
 
+render_templates() {
+  local file dir var_names args
+
+  for template_path in $(find -H "$DOTFILES_ROOT" -name "*.template"); do
+    file=$(basename -s ".template" "$template_path")
+    dir=$(basename "$(dirname "$template_path")")
+    var_names="$(grep -oE '#[A-Z_]+#' "$template_path" | grep -oE '[^#]+')"
+    args=""
+    for var in $var_names; do
+      if [ -z "${!var}" ]; then
+        user " - Enter value for '$var'"
+        read -re "${var?}"
+      fi
+      args+="-e 's/#${var}#/${!var}/g' "
+    done
+    args+="$template_path"
+    mkdir "$DOTFILES_SCRATCH/$dir"
+    <<< "$args" xargs echo sed > "$DOTFILES_SCRATCH/$dir/$file"
+  done
+}
+
 except_vim_undo() {
   perl -nle 'print unless /vim\/undo/'
 }

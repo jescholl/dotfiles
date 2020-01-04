@@ -17,6 +17,9 @@ echo ''
 log_info "Running installers"
 run_installer "preinstall.sh"
 
+log_info "Rendering templates"
+render_templates
+
 log_info "Linking dotfiles"
 link_dotfiles
 
