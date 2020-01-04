@@ -133,6 +133,7 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+"let g:syntastic_terraform_checkers = ['terraform fmt']
 
 let g:syntastic_sh_shellcheck_args="-e SC1090 -e SC2181"
 let g:syntastic_always_populate_loc_list = 1
