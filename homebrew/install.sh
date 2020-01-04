@@ -5,6 +5,8 @@ if [ "$(uname -s)" != "Darwin" ]; then
   exit 0
 fi
 
+source "$DOTFILES_ROOT/bootstrap/functions"
+
 #
 # Homebrew
 #
@@ -13,7 +15,7 @@ fi
 
 # Check for Homebrew
 if ! command -v brew > /dev/null; then
-  echo "  Installing Homebrew for you."
+  log_info "  Installing Homebrew for you."
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
@@ -25,8 +27,14 @@ installed_packages="$(brew info --installed --json | jq .[].name)"
 
 brew_packages="awscli grc ipcalc tcping dhcping csshx gnu-tar wget nmap rbenv ruby-build mtr httpie exercism jq ag autojump npm git-standup shellcheck vim"
 for pkg in $brew_packages; do
+  log_info "Installing $pkg"
   if [[ "$installed_packages" =~ \"$pkg\" ]]; then
+    log_success "  Already installed"
     continue
   fi
-  brew install "$pkg"
+  if brew install "$pkg"; then
+    log_success "  Already installed"
+  else
+    log_failure "  Unable to install"
+  fi
 done

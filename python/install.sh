@@ -1,10 +1,15 @@
 #!/bin/bash
 source "$DOTFILES_ROOT/bootstrap/functions"
-if test ! $(which brew); then
+if ! command -v brew; then
   log_info "Homebrew not installed, skipping"
-elif test ! $(python --version | grep "Python 3"); then
+elif ! python --version | grep "Python 3" > /dev/null ; then
   log_info "Installing python"
-  brew install python && log_success "Python successfully installed"
+
+  if brew install python; then
+    log_success "Python successfully installed"
+  else
+    log_fail "Unable to install python"
+  fi
 else
   log_success "Python3 already instaled"
 fi
