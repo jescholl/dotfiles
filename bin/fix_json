@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ "$#" -eq 1 ]; then
+  file_contents="$(cat "$1")"
+else
+  file_contents=$(cat)
+fi
+
+rjson <(echo $file_contents)
