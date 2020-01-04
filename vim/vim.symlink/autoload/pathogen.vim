@@ -1,1 +1,0 @@
-../../../__dotfiles_scratch__/vim-bundle/vim-pathogen/autoload/pathogen.vim

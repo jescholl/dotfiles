@@ -3,6 +3,10 @@ if [ "$(uname -s)" != "Darwin" ]; then
   exit 0
 fi
 
+source "$DOTFILES_ROOT/bootstrap/functions"
+
+log_info "Setting OSX preferences"
+
 # Sets reasonable OS X defaults.
 #
 # Or, in other words, set shit how I like in OS X.

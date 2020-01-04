@@ -5,7 +5,7 @@
 set -e
 
 DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.."; pwd)"
-DOTFILES_SCRATCH="${DOTFILES_ROOT}/__dotfiles_scratch__"
+DOTFILES_SCRATCH="${DOTFILES_ROOT}/.__dotfiles_scratch__"
 
 export DOTFILES_ROOT
 export DOTFILES_SCRATCH

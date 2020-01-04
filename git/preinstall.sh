@@ -1,5 +1,5 @@
 #!/bin/bash
-if ! [ -f "$DOTFILES_SCRATCH/gitconfig.symlink" ]; then
+if ! [ -f "$DOTFILES_SCRATCH/gitconfig.dynamic.symlink" ]; then
   source "$DOTFILES_ROOT/bootstrap/functions"
   git_credential='cache'
   if [ "$(uname -s)" == "Darwin" ]; then

@@ -1,0 +1,130 @@
+#!/bin/bash
+
+LSHOST_CACHE_MAX_AGE=${LSHOST_CACHE_MAX_AGE:-86400} # seconds
+LSHOST_CACHE_FILE=${LSHOST_CACHE_FILE:-$DOTFILES_SCRATCH/lshost.cache}
+
+CONSUL_HTTP_ADDR=${CONSUL_HTTP_ADDR:-consul.service.consul:8500}
+CONSUL_DOMAIN=${CONSUL_DOMAIN:-node.consul}
+
+required_vars=()
+optional_vars=("CONSUL_HTTP_ADDR" "CONSUL_HTTP_SSL" "LSHOST_CACHE_MAX_AGE" "LSHOST_CACHE_FILE")
+
+join_by() {
+  local delimiter="$1"
+  shift
+  echo -n "$1";
+  shift;
+  printf "%s" "${@/#/$delimiter}"
+}
+
+get_hosts() {
+  (
+    get_hosts_from_consul
+  ) | sort | uniq
+}
+
+get_hosts_from_consul() {
+  local consul_proto="http"
+  if [ "$CONSUL_HTTP_SSL" == "true" ]; then
+    consul_proto="https"
+  fi
+  if ! nc -zG1 "${CONSUL_HTTP_ADDR%%:*}" "${CONSUL_HTTP_ADDR##*:}" 2> /dev/null; then
+    error "Unable to connect to consul ($CONSUL_HTTP_ADDR) "
+    exit 1
+  fi
+  curl -s "$consul_proto://$CONSUL_HTTP_ADDR/v1/catalog/nodes" | jq -r ".[].Node | . + \".${CONSUL_DOMAIN}\" "
+}
+
+environment_valid() {
+  local missing_vars=()
+  for var in "${required_vars[@]}"; do
+    if [ -z "${!var}" ]; then
+      missing_vars+=("$var")
+    fi
+  done
+
+  if [ "${#missing_vars}" -gt 0 ]; then
+    error "Required environment variables not set:"$'\n  '"$(join_by $'\n  ' "${missing_vars[@]}")"
+    show_help_and_exit "${#missing_vars}"
+  fi
+}
+
+show_help_and_exit() {
+  exit_code="${1:-0}"
+cat <<EOT >&2
+
+Usage:
+  lshost             List hosts from cache after syncing cache
+  lshost -r          Refresh host cache
+  lshost -?          Show help
+
+Required environment variables:
+  $(join_by $'\n  ' "${required_vars[@]}")
+
+Optional environment variables:
+  $(join_by $'\n  ' "${optional_vars[@]}")
+EOT
+exit "$exit_code"
+}
+
+error() {
+  echo -e "\033[2K[\033[00;31mERROR\033[0m] $*" >&2
+}
+
+cache_valid() {
+  # refresh forced by user
+  [ "$force_refresh" == "true" ] && return 1
+
+  # file doesn't exist
+  [ ! -f "$LSHOST_CACHE_FILE" ] && return 2
+
+  # file size is 0
+  [ ! -s "$LSHOST_CACHE_FILE" ] && return 3
+
+  # mtime < now - max_age
+  [ "$(date -r "$LSHOST_CACHE_FILE" "+%s")" -lt "$(($(date "+%s") - LSHOST_CACHE_MAX_AGE))" ] && return 4
+
+  # valid
+  return 0
+}
+
+update_cache() {
+  if [ ! -f "$LSHOST_CACHE_FILE" ]; then
+    mkdir -p "$(dirname "$LSHOST_CACHE_FILE")"
+  fi
+  echo -ne  "     [Updating cache, please wait]\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b" >&2
+  get_hosts > "$LSHOST_CACHE_FILE"
+  echo -ne  "                                  \b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b" >&2
+}
+
+parse_args(){
+  while [[ $# -gt 0 ]]; do
+    arg="$1"; shift
+    case $arg in
+      -r|--refresh)
+        force_refresh=true
+        ;;
+      -\?|-h|--help|help)
+        show_help_and_exit
+        ;;
+      *)
+        error "Unrecognized argument"
+        show_help_and_exit
+        ;;
+    esac
+  done
+}
+
+
+
+
+
+main() {
+  parse_args "$@"
+  environment_valid || show_help_and_exit
+  cache_valid || update_cache
+  cat "$LSHOST_CACHE_FILE"
+}
+
+main "$@"
+

@@ -30,3 +30,5 @@ precmd() {
 }
 
 eval "$(rbenv init -)"
+
+source $DOTFILES_ROOT/bash/completions.sh

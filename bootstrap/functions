@@ -82,7 +82,7 @@ link_file () {
 }
 
 except_vim_undo() {
-  perl -nle 'print unless /\.vim_undo/'
+  perl -nle 'print unless /vim\/undo/'
 }
 
 clone_repos() {
@@ -94,7 +94,7 @@ clone_repos() {
     file=$(basename -s ".git_list" "$git_list")
     dir=$(basename "$(dirname "$git_list")")
     while read -r plugin; do
-      repo_dir="${DOTFILES_SCRATCH}/${dir}-${file}/$(echo "$plugin" | sed 's/^.*\///')"
+      repo_dir="${DOTFILES_SCRATCH}/${dir}/${file}/$(echo "$plugin" | sed 's/^.*\///')"
 
       # shellcheck disable=SC2164 # popd failures are accounted for below
       git clone -q "https://${plugin}" "$repo_dir" 2> /dev/null ||

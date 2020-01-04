@@ -11,5 +11,5 @@ atom.symlink/packages
 atom.symlink/storage
 atom.symlink/themes
 
-__dotfiles_scratch__
+.__dotfiles_scratch__
 .vim_undo
