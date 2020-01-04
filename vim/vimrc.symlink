@@ -1,5 +1,7 @@
+source $DOTFILES_SCRATCH/vim/bundle/vim-pathogen/autoload/pathogen.vim
+
 " use pathogen to manage plugins
-execute pathogen#infect()
+execute pathogen#infect($DOTFILES_SCRATCH.'/vim/bundle/{}')
 
 " Syntax highlighting
 syntax on
@@ -83,7 +85,7 @@ set wildmenu
 set wildmode=list:longest,full
 
 if has('persistent_undo')
-    set undodir=~/.vim/undodir
+    set undodir=$DOTFILES_SCRATCH/vim/undo_dir
     set undofile
 endif
 
