@@ -41,7 +41,11 @@ unsetopt nomatch
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
 # you'll have access to them in your scripts.
-[ -f "$HOME/.env.local.sh" ] && source "${HOME}/.env.local.sh"
+if [ -f "$HOME/.env.local.sh" ]; then
+  source "${HOME}/.env.local.sh"
+fi
 
 # source `.env.local_zsh.sh` if it exists
-[ -f "${HOME}/.env.local_zsh.sh" ] && source "${HOME}/.env.local_zsh.sh"
+if [ -f "${HOME}/.env.local_zsh.sh" ]; then
+  source "${HOME}/.env.local_zsh.sh"
+fi
