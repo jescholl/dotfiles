@@ -68,4 +68,8 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
     exec 2>&3
 fi
 
+source "${DOTFILES_SCRATCH}/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+ZSH_HIGHLIGHT_STYLES[path]='none'
+
 return 0
