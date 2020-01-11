@@ -16,25 +16,32 @@ source "$DOTFILES_ROOT/bootstrap/functions"
 # Check for Homebrew
 if ! command -v brew > /dev/null; then
   log_info "  Installing Homebrew for you."
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  if ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" > /tmp/install-homebrew.log 2>&1; then
+    log_fail "Unable to install homebrew"
+  fi
 fi
 
-brew update
+log_info "Updating brew"
+if ! brew update > /tmp/brew-update.log 2>&1; then
+  log_fail "Error while updating brew"
+fi
+
 
 # Install homebrew packages
 
 installed_packages="$(brew info --installed --json | jq .[].name)"
 
-brew_packages="awscli grc ipcalc tcping dhcping csshx gnu-tar wget nmap mtr httpie exercism jq ag autojump npm git-standup shellcheck vim"
+brew_packages="awscli grc ipcalc tcping dhcping csshx gnu-tar wget nmap mtr httpie exercism jq the_silver_searcher autojump node git-standup shellcheck vim"
+log_info "Installing packages"
 for pkg in $brew_packages; do
-  log_info "Installing $pkg"
   if [[ "$installed_packages" =~ \"$pkg\" ]]; then
-    log_success "  Already installed"
+    log_success "Already installed $pkg"
     continue
   fi
-  if brew install "$pkg"; then
-    log_success "  Already installed"
+
+  if brew install "$pkg" > "/tmp/install-$pkg.log" 2>&1; then
+    log_success "Installed $pkg"
   else
-    log_failure "  Unable to install"
+    log_failure "Unable to install $pkg"
   fi
 done
