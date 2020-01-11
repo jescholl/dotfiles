@@ -25,7 +25,7 @@ brew update
 
 installed_packages="$(brew info --installed --json | jq .[].name)"
 
-brew_packages="awscli grc ipcalc tcping dhcping csshx gnu-tar wget nmap rbenv ruby-build mtr httpie exercism jq ag autojump npm git-standup shellcheck vim"
+brew_packages="awscli grc ipcalc tcping dhcping csshx gnu-tar wget nmap mtr httpie exercism jq ag autojump npm git-standup shellcheck vim"
 for pkg in $brew_packages; do
   log_info "Installing $pkg"
   if [[ "$installed_packages" =~ \"$pkg\" ]]; then
