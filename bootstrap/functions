@@ -62,22 +62,22 @@ link_file () {
 
     if [ "$overwrite" == "true" ]; then
       rm -rf "$dst"
-      log_success "removed $dst"
+      log_success "  removed $dst"
     fi
 
     if [ "$backup" == "true" ]; then
       mv "$dst" "${dst}.backup"
-      log_success "moved $dst to ${dst}.backup"
+      log_success "  moved $dst to ${dst}.backup"
     fi
 
     if [ "$skip" == "true" ]; then
-      log_success "skipped $src"
+      log_success "  skipped $src"
     fi
   fi
 
   if [ "$skip" != "true" ]; then  # "false" or empty
     ln -s "$1" "$2"
-    log_success "linked $1 to $2"
+    log_success "  linked $1 to $2"
   fi
 }
 
@@ -96,7 +96,8 @@ clone_repos() {
     while read -r plugin; do
       repo_dir="${DOTFILES_SCRATCH}/${dir}/${file}/$(echo "$plugin" | sed 's/^.*\///')"
 
-      # shellcheck disable=SC2164 # popd failures are accounted for below
+      # shellcheck disable=SC2164
+      # popd failures are accounted for below
       git clone -q "https://${plugin}" "$repo_dir" 2> /dev/null ||
         (pushd > /dev/null "$repo_dir" && \
         git fetch origin -q && \
@@ -104,9 +105,9 @@ clone_repos() {
         git reset --hard origin/master -q && popd > /dev/null)
 
       if [ $? == 0 ]; then
-        log_success "Cloned ${plugin}"
+        log_success "  Cloned ${plugin}"
       else
-        log_fail "Failed to clone ${plugin}"
+        log_fail "  Failed to clone ${plugin}"
       fi
     done < "$git_list"
   done
