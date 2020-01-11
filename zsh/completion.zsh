@@ -13,5 +13,6 @@ completion_files=($DOTFILES_ROOT/**/functions/_*)
 
 for func in $completion_files; do
   compdef "${func##*/}" "${func##*/_}"
+  autoload "${func##*/}"
 done
 unset completion_files
