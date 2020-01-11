@@ -8,8 +8,9 @@ PATH="$HOME/.rbenv/bin:$PATH"
 if ! command -v rbenv > /dev/null; then
   log_info "Installing rbenv"
   git clone https://github.com/rbenv/rbenv.git ~/.rbenv > /tmp/rbenv-install.log 2>&1
+
   # shellcheck disable=SC2015
-  cd ~/.rbenv && src/configure && make -C src >> /tmp/rbenv-install.log || true
+  cd ~/.rbenv && src/configure >> /tmp/rbenv-install.log && make -C src >> /tmp/rbenv-install.log || true
 fi
 
 if ! rbenv install -l > /dev/null 2>&1; then
