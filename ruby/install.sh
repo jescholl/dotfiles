@@ -2,6 +2,8 @@
 ruby_versions=("2.5.5")
 
 source "${DOTFILES_ROOT}/bootstrap/functions"
+# temporarily set path as we install
+PATH="$HOME/.rbenv/bin:$PATH"
 
 if ! command -v rbenv > /dev/null; then
   log_info "Installing rbenv"
