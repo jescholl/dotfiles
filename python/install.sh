@@ -1,5 +1,6 @@
 #!/bin/bash
 source "$DOTFILES_ROOT/bootstrap/functions"
+
 if ! command -v brew; then
   log_info "Homebrew not installed, skipping"
 elif ! python --version | grep "Python 3" > /dev/null ; then
@@ -16,4 +17,4 @@ fi
 
 # FIXME: make sure the pip and python links point to python3
 
-pip install --user pipenv
+pip install --user pipenv > /dev/null 2>&1 || true
