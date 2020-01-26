@@ -1,20 +1,26 @@
 #!/bin/bash
+
+# first version in the list becomes default
+python_versions=(3.7.6)
+
 source "$DOTFILES_ROOT/bootstrap/functions"
+pyenv_path="$HOME/.pyenv"
+pyenv="$pyenv_path/bin/pyenv"
 
-if ! command -v brew; then
-  log_info "Homebrew not installed, skipping"
-elif ! python --version | grep "Python 3" > /dev/null ; then
-  log_info "Installing python"
+link_file "$DOTFILES_SCRATCH/python/tools/pyenv" "$HOME/.pyenv"
+for file in "$DOTFILES_SCRATCH/python/tools/pyenv/bin/"*; do
+  link_file "$file" "$DOTFILES_SCRATCH/bin/$(basename "$file")"
+done
 
-  if brew install python; then
-    log_success "Python successfully installed"
+for version in "${python_versions[@]}"; do
+  log_info "Installing python $version"
+  if "$pyenv" versions | grep -q " *$version *"; then
+    log_success "  already installed"
+  elif "$pyenv" install "$version" > "/tmp/pyenv-install-$version.log" 2>&1; then
+    log_success "  installed python $version"
   else
-    log_fail "Unable to install python"
+    log_fail "  failed to install python $version"
   fi
-else
-  log_success "Python3 already instaled"
-fi
+done
 
-# FIXME: make sure the pip and python links point to python3
-
-pip install --user pipenv > /dev/null 2>&1 || true
+echo "${python_versions[0]}" > "$pyenv_path/version"
