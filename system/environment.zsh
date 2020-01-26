@@ -1,1 +1,0 @@
-export PATH=${DOTFILES_SCRATCH}/bin:$PATH
