@@ -4,7 +4,13 @@ LSHOST_CACHE_MAX_AGE=${LSHOST_CACHE_MAX_AGE:-86400} # seconds
 LSHOST_CACHE_FILE=${LSHOST_CACHE_FILE:-$DOTFILES_SCRATCH/lshost.cache}
 
 CONSUL_HTTP_ADDR=${CONSUL_HTTP_ADDR:-consul.service.consul:8500}
-CONSUL_DOMAIN=${CONSUL_DOMAIN:-node.consul}
+CONSUL_DOMAIN=${CONSUL_DOMAIN:-.consul}
+
+consul_proto="http"
+if [ "$CONSUL_HTTP_SSL" == "true" ]; then
+  consul_proto="https"
+fi
+consul_uri="$consul_proto://$CONSUL_HTTP_ADDR"
 
 required_vars=()
 optional_vars=("CONSUL_HTTP_ADDR" "CONSUL_HTTP_SSL" "LSHOST_CACHE_MAX_AGE" "LSHOST_CACHE_FILE")
@@ -20,19 +26,24 @@ join_by() {
 get_hosts() {
   (
     get_hosts_from_consul
+    get_services_from_consul
   ) | sort | uniq
 }
 
 get_hosts_from_consul() {
-  local consul_proto="http"
-  if [ "$CONSUL_HTTP_SSL" == "true" ]; then
-    consul_proto="https"
-  fi
   if ! nc -zG1 "${CONSUL_HTTP_ADDR%%:*}" "${CONSUL_HTTP_ADDR##*:}" 2> /dev/null; then
     error "Unable to connect to consul ($CONSUL_HTTP_ADDR) "
     exit 1
   fi
-  curl -s "$consul_proto://$CONSUL_HTTP_ADDR/v1/catalog/nodes" | jq -r ".[].Node | . + \".${CONSUL_DOMAIN}\" "
+  curl -sf "$consul_uri/v1/catalog/nodes" | jq -r ".[].Node | . + \".node${CONSUL_DOMAIN}\" "
+}
+
+get_services_from_consul() {
+  if ! nc -zG1 "${CONSUL_HTTP_ADDR%%:*}" "${CONSUL_HTTP_ADDR##*:}" 2> /dev/null; then
+    error "Unable to connect to consul ($CONSUL_HTTP_ADDR) "
+    exit 1
+  fi
+  curl -sf "$consul_uri/v1/catalog/services" | jq -r "keys[] | . + \".service${CONSUL_DOMAIN}\""
 }
 
 environment_valid() {
