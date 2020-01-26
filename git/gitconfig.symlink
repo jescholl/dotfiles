@@ -13,12 +13,10 @@
         squash-all = "!f(){ git reset $(git commit-tree HEAD^{tree} -m \"${1:-A new start}\");};f"
         pr      = "!f() { branch_name=\"$(git rev-parse --abbrev-ref HEAD)\"; repo_url=\"https://$(git remote get-url --push origin | tr ':' '/' | grep -o '[^/@]\\+/[^/]\\+/[^/.]\\+')\"; echo \"${repo_url}/compare/${branch_name}\"; }; f"
 
-
 [color]
         diff = auto
         status = auto
         branch = auto
-        #ui = true
         ui = auto
 [status]
         showUntrackedFiles = all
