@@ -14,6 +14,9 @@ source "${HOME}/.env.dotfiles.sh"
 typeset -U config_files
 config_files=($DOTFILES_ROOT/**/*.zsh)
 
+# load paths from the path helper
+[ -d "/etc/paths.d" ] && eval $(/usr/libexec/path_helper -s)
+
 # load the path files
 for file in ${(M)config_files:#*/path.zsh}; do
   source $file
@@ -39,9 +42,6 @@ for file in ${(M)config_files:#*/completion.zsh}; do
 done
 
 unset config_files
-
-# load paths from the path helper
-[ -d "/etc/paths.d" ] && eval $(/usr/libexec/path_helper -s)
 
 ## configure autojump
 #[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
