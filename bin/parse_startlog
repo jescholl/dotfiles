@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+commands = {}
+prev_time = nil
+prev_command = nil
+
+ARGF.read.each_line do |line|
+  next if line.empty?
+  cur_time, cur_command = line.chomp.split(' ', 2)
+  next unless cur_time.to_i.to_s == cur_time
+  cur_time = cur_time.to_i
+
+  prev_time ||= cur_time
+  prev_command ||= cur_command
+
+  diff_time = cur_time - prev_time
+  commands[diff_time] = prev_command
+
+  prev_time = cur_time
+  prev_command = cur_command
+end
+
+commands.sort_by{ |k,v| k }.each do |time,command|
+  puts "#{time}: #{command}"
+end
