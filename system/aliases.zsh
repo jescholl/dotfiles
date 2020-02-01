@@ -9,3 +9,4 @@ if $(gls &>/dev/null); then
 fi
 
 alias mysql='docker run --rm -it mariadb mysql'
+alias tf=terraform
