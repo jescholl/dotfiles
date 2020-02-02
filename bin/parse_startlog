@@ -7,7 +7,8 @@ prev_command = nil
 ARGF.read.each_line do |line|
   next if line.empty?
   cur_time, cur_command = line.chomp.split(' ', 2)
-  next unless cur_time.to_i.to_s == cur_time
+  # sometimes the time starts with 0
+  next unless /^0*#{cur_time.to_i.to_s}$/.match?(cur_time)
   cur_time = cur_time.to_i
 
   prev_time ||= cur_time
