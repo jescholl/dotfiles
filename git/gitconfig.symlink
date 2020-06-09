@@ -11,7 +11,7 @@
         edit    = "!f() { $EDITOR $(git diff --name-only ${@:-HEAD~1}); }; f"
         fu      = "!f() { [ -n \"${__git_ps1_branch_name}\" ]  || exit 1;  git add .; git commit -m 'foo'; git push origin \"${__git_ps1_branch_name}\"; }; f"
         squash-all = "!f(){ git reset $(git commit-tree HEAD^{tree} -m \"${1:-A new start}\");};f"
-        pr      = "!f() { branch_name=\"$(git rev-parse --abbrev-ref HEAD)\"; repo_url=\"https://$(git remote get-url --push origin | tr ':' '/' | grep -o '[^/@]\\+/[^/]\\+/[^/.]\\+')\"; echo \"${repo_url}/compare/${branch_name}\"; }; f"
+        pr      = "!f() { branch_name=\"$(git rev-parse --abbrev-ref HEAD)\"; repo_url=\"https://$(git remote get-url --push origin | tr ':' '/' | grep -o '[^/@]\\+/[^/]\\+/[^/.]\\+')\"; echo \"${repo_url}/pull/new/${branch_name}\"; }; f"
 
 [color]
         diff = auto
