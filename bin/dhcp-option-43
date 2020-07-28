@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+ARGV.each do |code|
+  option_num = bytes_remaining = nil
+  value = []
+  code.split(':').each do |byte|
+    byte = byte.to_i(16)
+
+    unless option_num
+      option_num = byte
+      next
+    end
+
+    unless bytes_remaining
+      bytes_remaining = byte
+      next
+    end
+
+    bytes_remaining -= 1
+    value.push(byte)
+
+
+    if bytes_remaining == 0
+      puts "option #{option_num} = #{value.map(&:chr).join} - #{value.inspect}"
+      option_num = bytes_remaining = nil
+      value = []
+    end
+  end
+end
