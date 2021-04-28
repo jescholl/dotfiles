@@ -10,3 +10,4 @@ fi
 
 alias mysql='docker run --rm -it mariadb mysql'
 alias tf=terraform
+alias tg=terragrunt
