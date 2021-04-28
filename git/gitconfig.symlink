@@ -6,12 +6,14 @@
         count   = !git shortlog -sn
         lg      = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
         sync    = fetch origin master:master
-        sha     = rev-parse HEAD
-        squash  = "!f() { git rebase -i $(git merge-base --fork-point origin/master); }; f"
-        edit    = "!f() { $EDITOR $(git diff --name-only ${@:-HEAD~1}); }; f"
+        sha     = "!f() { git rev-parse ${@:-HEAD}; }; f"
+        squash  = "!f() { git rebase -i $(git merge-base HEAD origin/master); }; f"
+        edit    = "!f() { $EDITOR $(git show --name-only --format= ${@}); }; f"
         fu      = "!f() { [ -n \"${__git_ps1_branch_name}\" ]  || exit 1;  git add .; git commit -m 'foo'; git push origin \"${__git_ps1_branch_name}\"; }; f"
         squash-all = "!f(){ git reset $(git commit-tree HEAD^{tree} -m \"${1:-A new start}\");};f"
         pr      = "!f() { branch_name=\"$(git rev-parse --abbrev-ref HEAD)\"; repo_url=\"https://$(git remote get-url --push origin | tr ':' '/' | grep -o '[^/@]\\+/[^/]\\+/[^/.]\\+')\"; echo \"${repo_url}/pull/new/${branch_name}\"; }; f"
+        dad     = "!f() { git commit -m \"$(curl -s https://icanhazdadjoke.com/)\"; }; f"
+        conflict = "!f() { $EDITOR $(git diff --name-only --diff-filter=U); }; f"
 
 [color]
         diff = auto
