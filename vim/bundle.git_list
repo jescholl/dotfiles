@@ -25,3 +25,4 @@ github.com/puppetlabs/puppet-syntax-vim
 github.com/fatih/vim-go
 github.com/vim-syntastic/syntastic
 github.com/pearofducks/ansible-vim
+github.com/juliosueiras/vim-terraform-completion
