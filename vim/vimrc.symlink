@@ -109,10 +109,10 @@ nnoremap <C-j> :<C-u>ChefFindRelated<CR>
 inoremap pdb import pdb; pdb.set_trace()
 inoremap bpry require pry; binding.pry
 
-" TABS OVER SPACES!!!
-autocmd FileType sh,c,cpp,ruby,puppet,yaml autocmd BufWritePre <buffer> :%s/\t/    /eg
+" replace tabs with spaces
+autocmd FileType sh,c,cpp,java,php,python,ruby,eruby,puppet,yaml,terraform,groovy autocmd BufWritePre <buffer> :%s/\t/    /eg
 " trim trailing whitespace on exit
-autocmd FileType sh,c,cpp,java,php,ruby,eruby,yaml autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType sh,c,cpp,java,php,python,ruby,eruby,puppet,yaml,jinja2,terraform,groovy autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 " convert symbols to strings
 map mb :%s/\[:\([a-z_]\+\)\]/\['\1'\]/<CR>
@@ -128,6 +128,7 @@ nmap <leader>N ggi# <C-R>=strftime("%Y-%m-%d - %A")<CR><CR><CR>
 autocmd BufRead,BufNewFile *.eyaml set filetype=yaml
 autocmd BufRead,BufNewFile *Jenkinsfile* set filetype=groovy
 autocmd BufRead,BufNewFile *Dockerfile* set filetype=dockerfile
+autocmd BufRead,BufNewFile *.hcl set filetype=terraform
 
 
 "let g:syntastic_puppet_checkers = ['puppet-lint']
@@ -142,3 +143,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
+
+
+let g:syntastic_terraform_tffilter_plan = 0
