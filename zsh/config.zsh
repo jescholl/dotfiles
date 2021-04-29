@@ -1,9 +1,3 @@
-if [[ -n $SSH_CONNECTION ]]; then
-  export PS1='%m:%3~$(__git_ps1 " (%s)")%# '
-else
-  export PS1='%3~$(__git_ps1 " (%s)")%# '
-fi
-
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export ZLS_COLORS=$LSCOLORS
 export CLICOLOR=true

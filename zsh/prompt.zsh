@@ -16,6 +16,11 @@ directory_name() {
 }
 
 export RPROMPT="%(?..{%{$fg[red]%}%?%{$reset_color%}} )%{$fg_bold[green]%}%*%{$reset_color%}"
-precmd() {
-  __git_ps1 $'\n$(rb_prompt)$(directory_name)' $'\n› ' " (%s)"
+
+prompt_clock() {
+  echo "%(?..{%{$fg[red]%}%?%{$reset_color%}} )%{$fg_bold[green]%}%*%{$reset_color%}"
 }
+
+PROMPT=$'\n$(prompt_clock) $(directory_name) $(gitprompt)\n› '
+RPROMPT=""
+VIRTUAL_ENV_DISABLE_PROMPT=1
