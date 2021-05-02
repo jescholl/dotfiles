@@ -129,6 +129,7 @@ autocmd BufRead,BufNewFile *.eyaml set filetype=yaml
 autocmd BufRead,BufNewFile *Jenkinsfile* set filetype=groovy
 autocmd BufRead,BufNewFile *Dockerfile* set filetype=dockerfile
 autocmd BufRead,BufNewFile *.hcl set filetype=terraform
+autocmd BufRead,BufNewFile *.nomad set filetype=terraform
 
 
 "let g:syntastic_puppet_checkers = ['puppet-lint']
