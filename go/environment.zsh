@@ -1,3 +1,3 @@
-export GOVERSION=1.9.3
+export GOVERSION=1.16.3
 
 export GOROOT=$HOME/go_$GOVERSION

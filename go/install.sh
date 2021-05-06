@@ -1,6 +1,6 @@
 #!/bin/bash
 source "${DOTFILES_ROOT}/bootstrap/functions"
-GOVERSION=${GOVERSION:-"1.9.3"}
+GOVERSION=${GOVERSION:-"1.16.3"}
 GOROOT=${GOROOT:-"$HOME/go_$GOVERSION"}
 
 mkdir -p "$GOROOT"
