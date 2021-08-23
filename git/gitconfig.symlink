@@ -11,9 +11,10 @@
         edit    = "!f() { $EDITOR $(git show --name-only --format= ${@}); }; f"
         fu      = "!f() { [ -n \"${__git_ps1_branch_name}\" ]  || exit 1;  git add .; git commit -m 'foo'; git push origin \"${__git_ps1_branch_name}\"; }; f"
         squash-all = "!f(){ git reset $(git commit-tree HEAD^{tree} -m \"${1:-A new start}\");};f"
-        pr      = "!f() { branch_name=\"$(git rev-parse --abbrev-ref HEAD)\"; repo_url=\"https://$(git remote get-url --push origin | tr ':' '/' | grep -o '[^/@]\\+/[^/]\\+/[^/.]\\+')\"; echo \"${repo_url}/pull/new/${branch_name}\"; }; f"
+        pr      = "!f() { branch_name=\"$(git rev-parse --abbrev-ref HEAD)\"; repo_url=\"https://$(git remote get-url --push origin | tr ':' '/' | grep -o '[^/@]\\+/[^/]\\+/[^/.]\\+')\"; echo \"${repo_url}/pull/new/${branch_name}\"; open \"${repo_url}/pull/new/${branch_name}\"; }; f"
         dad     = "!f() { git commit -m \"$(curl -s https://icanhazdadjoke.com/)\"; }; f"
         conflict = "!f() { $EDITOR $(git diff --name-only --diff-filter=U); }; f"
+        gredit   = "!f() { $EDITOR $(git grep ${@} | cut -d: -f 1 | sort -u ); }; f"
 
 [color]
         diff = auto
