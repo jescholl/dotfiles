@@ -2,15 +2,11 @@ set -g history-limit 9001     # it's over 9000!!!
 set -g default-terminal "xterm"
 
 ## Status bar has a dim gray background
-set-option -g status-bg colour234
-set-option -g status-fg colour74
 # left status bar color gray text
-set-option -g status-left-bg default
-set-option -g status-left-fg colour244
+set-option -g status-left-style bg=default,fg=colour244
 
 # right status bar colors yellow text
-set-option -g status-right-bg default
-set-option -g status-right-fg colour208
+set-option -g status-right-style bg=default,fg=colour208
 
 set -g status-interval 60
 set -g status-left-length 30
@@ -39,7 +35,7 @@ run-shell "source $DOTFILES_SCRATCH/tmux-plugins/tmux-git/tmux-git.sh"
 # set-option -g default-terminal "screen-256color"
 
 # Enable mouse.
-set-window-option -g mode-mouse on
+#set-option -g mouse on
 
 # Scroll back buffer n lines.
 set-option -g history-limit 10000
@@ -67,15 +63,15 @@ set-window-option -g pane-base-index 1
 # Set key map for copy and choice modes.
 set-window-option -g mode-keys vi
 
-unbind-key '['
-unbind-key ']'
-unbind-key -t vi-copy 'Space'
-unbind-key -t vi-copy 'Enter'
+#unbind-key '['
+#unbind-key ']'
 bind-key Escape copy-mode
 
 # Vim-like 'v' and 'y' in copy-mode.
-bind-key -t vi-copy 'v' begin-selection
-bind-key -t vi-copy 'y' copy-selection
+bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi 'y' send -X copy-selection
+#bind-key -t vi-copy 'v' begin-selection
+#bind-key -t vi-copy 'y' copy-selection
 
 # Vim-like 'p' paste.
 bind-key 'p' paste-buffer
@@ -107,7 +103,7 @@ bind-key 'm' command-prompt "split-window 'exec man %%'"
 # ----------
 
 # Use UTF-8 in status bar.
-set-option -g status-utf8 on
+#set-option -g status-utf8 on
 
 # Use key map for the status bar.
 set-option -g status-keys vi
@@ -128,30 +124,18 @@ set-option -g status-right-length 10
 set-option -g display-time 2000
 set-option -g display-panes-time 2000
 
-set-option -g status-attr bright
 
 # Default window title colours.
-set-window-option -g window-status-fg white
-set-window-option -g window-status-bg default
-set-window-option -g window-status-attr dim
 
 # Active window title colours.
-set-window-option -g window-status-current-fg colour208
-set-window-option -g window-status-current-bg default
-set-window-option -g window-status-current-attr bright
 
 # Command/message line colours.
-set-option -g message-fg white
-set-option -g message-bg black
-set-option -g message-attr bright
 
 
 # Panes
 # -----
 
 # Pane borders.
-set-option -g pane-border-fg colour240
-set-option -g pane-active-border-fg colour240
 
 # Splitting panes.
 # % for vertical, - for horizontal (tmux default)
@@ -167,27 +151,22 @@ bind-key r source-file ~/.tmux.conf\; display-message "tmux.conf is reloaded"
 #### COLOUR (Solarized dark)
 
 # default statusbar colors
-set-option -g status-bg black #base02
-set-option -g status-fg yellow #yellow
-set-option -g status-attr default
+set-option -g status-style bg=colour234,fg=colour74,bright,bg=black,fg=yellow,default
 
 # default window title colors
-set-window-option -g window-status-fg brightblue #base0
-set-window-option -g window-status-bg default
+set-window-option -g window-status-style fg=white,bg=default,dim,fg=brightblue,bg=default
 #set-window-option -g window-status-attr dim
 
 # active window title colors
-set-window-option -g window-status-current-fg brightred #orange
-set-window-option -g window-status-current-bg default
+set-window-option -g window-status-current-style fg=colour208,bg=default,bright,fg=brightred,bg=default
 #set-window-option -g window-status-current-attr bright
 
 # pane border
-set-option -g pane-border-fg black #base02
-set-option -g pane-active-border-fg brightgreen #base01
+set-option -g pane-border-style fg=colour240,fg=black
+set-option -g pane-active-border-style fg=colour240,fg=brightgreen
 
 # message text
-set-option -g message-bg black #base02
-set-option -g message-fg brightred #orange
+set-option -g message-style fg=white,bg=black,bright,bg=black,fg=brightred
 
 # pane number display
 set-option -g display-panes-active-colour blue #blue
