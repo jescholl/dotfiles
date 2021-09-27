@@ -8,8 +8,10 @@ periodic_rehash() {
   fi
 }
 
-# init according to man page
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 if (( $+commands[pyenv] )); then
+  eval "$(pyenv init --path)"
   eval "$(pyenv init --no-rehash -)"
 fi
 
