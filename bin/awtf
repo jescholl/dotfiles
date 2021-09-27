@@ -4,6 +4,14 @@ import ipaddress
 import urllib.request
 import json
 import argparse
+import re
+
+def aws_region(string):
+    try:
+        re.search("^\w\w(-gov)?-\w+-\d", string)
+    except:
+        raise argparse.ArgumentTypeError("%r does not appear to be a valid AWS region" % string)
+    return string
 
 
 def ip_address(string):
@@ -14,18 +22,20 @@ def ip_address(string):
     return ip
 
 parser = argparse.ArgumentParser(description="Look up AWS IP addresses to determine their region, and service")
-parser.add_argument('ip', metavar="IP", type=ip_address, help="IP address to look up")
+group = parser.add_mutually_exclusive_group()
+group.add_argument('ip', metavar="IP", type=ip_address, nargs='?', help="IP address to look up")
+group.add_argument('-r', '--region', metavar="REGION", type=aws_region, help="AWS region address to look up")
 
 args = parser.parse_args()
 
 result = json.loads(urllib.request.urlopen("https://ip-ranges.amazonaws.com/ip-ranges.json").read())
 
-
-table_format_str = "{:<15} {:<15} {:<15}\n"
+table_format_str = "{:<20} {:<20} {:<20}\n"
 table = table_format_str.format("Prefix", "Region", "Service")
 
 for prefix in result['prefixes']:
-    if args.ip in ipaddress.ip_network(prefix['ip_prefix']):
-        table +=  table_format_str.format(prefix['ip_prefix'], prefix['region'], prefix['service'])
+    if (args.ip and args.ip in ipaddress.ip_network(prefix['ip_prefix'])) or (args.region and args.region == prefix['region']):
+            table +=  table_format_str.format(prefix['ip_prefix'], prefix['region'], prefix['service'])
+
 
 print(table)
