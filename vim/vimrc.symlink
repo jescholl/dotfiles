@@ -6,6 +6,10 @@ execute pathogen#infect($DOTFILES_SCRATCH.'/vim/bundle/{}')
 " Syntax highlighting
 syntax on
 
+if filereadable($HOME."/.vimrc.local")
+  source $HOME/.vimrc.local
+endif
+
 function SetBackground()
   " read background from first line of file
   if filereadable($DOTFILES_SCRATCH."/vim_background")

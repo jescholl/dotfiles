@@ -1,6 +1,7 @@
 github.com/altercation/vim-colors-solarized
 github.com/tpope/vim-pathogen
 github.com/tpope/vim-fugitive
+github.com/shumphrey/fugitive-gitlab.vim
 github.com/tpope/vim-rhubarb
 github.com/tpope/vim-unimpaired
 github.com/elzr/vim-json
