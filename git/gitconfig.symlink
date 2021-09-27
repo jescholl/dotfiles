@@ -1,5 +1,3 @@
-[include]
-        path    = .gitconfig.dynamic
 [alias]
         co      = checkout
         wtf     = !$DOTFILES_ROOT/bin/git-wtf
@@ -44,3 +42,7 @@
 
 [fetch]
         prune = true
+
+[include]
+        path = .gitconfig.dynamic
+        path = .gitconfig.local
