@@ -3,47 +3,48 @@
 LSHOST_CACHE_MAX_AGE=${LSHOST_CACHE_MAX_AGE:-86400} # seconds
 LSHOST_CACHE_FILE=${LSHOST_CACHE_FILE:-$DOTFILES_SCRATCH/lshost.cache}
 
-CONSUL_HTTP_ADDR=${CONSUL_HTTP_ADDR:-consul.service.consul:8500}
-CONSUL_DOMAIN=${CONSUL_DOMAIN:-.consul}
 
-consul_proto="http"
-if [ "$CONSUL_HTTP_SSL" == "true" ]; then
-  consul_proto="https"
-fi
-consul_uri="$consul_proto://$CONSUL_HTTP_ADDR"
+find_plugins(){
+  for dir in ${PATH//:/ }; do
+    ls "$dir"/lshost-* 2> /dev/null
+  done | xargs -n 1 basename
+}
 
-required_vars=()
-optional_vars=("CONSUL_HTTP_ADDR" "CONSUL_HTTP_SSL" "LSHOST_CACHE_MAX_AGE" "LSHOST_CACHE_FILE")
 
 join_by() {
-  local delimiter="$1"
-  shift
-  echo -n "$1";
-  shift;
+  local delimiter="$1"; shift
+  echo -n "$1"; shift
   printf "%s" "${@/#/$delimiter}"
 }
 
+# shellcheck disable=SC2207
+available_plugins=($(find_plugins))
+# shellcheck disable=SC2206
+loaded_plugins=(${LSHOST_PLUGINS:-${available_plugins[@]}})
+
+required_vars=()
+for plugin in "${loaded_plugins[@]}"; do
+  # shellcheck disable=SC2207
+  required_vars+=($($plugin required_vars))
+done
+# shellcheck disable=SC2207
+required_vars=($(printf "%s\n" "${required_vars[@]}" | sort -u ))
+
+optional_vars=(LSHOST_CACHE_MAX_AGE LSHOST_CACHE_FILE)
+for plugin in "${loaded_plugins[@]}"; do
+  # shellcheck disable=SC2207
+  optional_vars+=($($plugin optional_vars))
+done
+# shellcheck disable=SC2207
+optional_vars=($(printf "%s\n" "${optional_vars[@]}" | sort -u ))
+
+
 get_hosts() {
   (
-    get_hosts_from_consul
-    get_services_from_consul
-  ) | sort | uniq
-}
-
-get_hosts_from_consul() {
-  if ! nc -zG1 "${CONSUL_HTTP_ADDR%%:*}" "${CONSUL_HTTP_ADDR##*:}" 2> /dev/null; then
-    error "Unable to connect to consul ($CONSUL_HTTP_ADDR) "
-    exit 1
-  fi
-  curl -sf "$consul_uri/v1/catalog/nodes" | jq -r ".[].Node | . + \".node${CONSUL_DOMAIN}\" "
-}
-
-get_services_from_consul() {
-  if ! nc -zG1 "${CONSUL_HTTP_ADDR%%:*}" "${CONSUL_HTTP_ADDR##*:}" 2> /dev/null; then
-    error "Unable to connect to consul ($CONSUL_HTTP_ADDR) "
-    exit 1
-  fi
-  curl -sf "$consul_uri/v1/catalog/services" | jq -r "keys[] | . + \".service${CONSUL_DOMAIN}\""
+    for plugin in "${loaded_plugins[@]}"; do
+      $plugin get_hosts
+    done
+  ) | sort -u
 }
 
 environment_valid() {
@@ -74,6 +75,12 @@ Required environment variables:
 
 Optional environment variables:
   $(join_by $'\n  ' "${optional_vars[@]}")
+
+Loaded plugins:
+  $(join_by $'\n  ' "${loaded_plugins[@]}")
+
+Available plugins:
+  $(join_by $'\n  ' "${available_plugins[@]}")
 EOT
 exit "$exit_code"
 }
@@ -127,15 +134,11 @@ parse_args(){
 }
 
 
-
-
-
 main() {
-  parse_args "$@"
   environment_valid || show_help_and_exit
+  parse_args "$@"
   cache_valid || update_cache
   cat "$LSHOST_CACHE_FILE"
 }
 
 main "$@"
-
