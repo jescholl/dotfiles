@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mac="$(echo "$1" | awk -F[:.] '{printf "%02s%02s%02s\n", $1, $2, $3}')"
+
+dig +short TXT "${mac:0:6}.oui.old.nu"
