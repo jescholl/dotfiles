@@ -1,0 +1,19 @@
+#!/bin/bash
+
+_required_vars() {
+  cat <<EOT
+EOT
+}
+
+_optional_vars() {
+  cat <<EOT
+EOT
+}
+
+_get_hosts() {
+  sft list-servers-rjson | jq -r '.Objects[].Name'
+}
+
+action=${1:-get_hosts}
+
+"_${action}"
