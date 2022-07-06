@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set defaults
-GIT_BASE_URL=${GIT_BASE_URL:-github.com}
+GIT_BASE_URL=${GIT_BASE_URL:-ssh://git@github.com}
 proj=${GIT_DEFAULT_PROJECT:-$USER}
 
 script_name=$(basename "$0")
@@ -46,7 +46,7 @@ case "${#uri[@]}" in
     exit 1
 esac
 
-URL="ssh://git@${GIT_BASE_URL}/${proj}/${repo}.git"
+URL="${GIT_BASE_URL}/${proj}/${repo}.git"
 
 # shellcheck disable=SC2086 # $options may contain multiple flags
 git clone "$URL" $options
