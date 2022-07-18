@@ -5,6 +5,28 @@ import urllib.request
 import json
 import argparse
 import re
+import os
+import time
+
+
+def get_ip_ranges():
+
+    cache_file = "/tmp/aws-ip-ranges.json"
+    try:
+        if time.time() - os.path.getmtime(cache_file)  > 24 * 60 * 60:
+            raise
+
+        with open(cache_file, "r") as f:
+            ip_ranges = json.loads(f.read())
+    except:
+        ip_ranges = json.loads(urllib.request.urlopen("https://ip-ranges.amazonaws.com/ip-ranges.json").read())
+
+    finally:
+        with open(cache_file, "w") as f:
+            f.write(json.dumps(ip_ranges))
+
+    return ip_ranges
+
 
 def aws_region(string):
     try:
@@ -28,12 +50,13 @@ group.add_argument('-r', '--region', metavar="REGION", type=aws_region, help="AW
 
 args = parser.parse_args()
 
-result = json.loads(urllib.request.urlopen("https://ip-ranges.amazonaws.com/ip-ranges.json").read())
+ip_ranges = get_ip_ranges()
+
 
 table_format_str = "{:<20} {:<20} {:<20}\n"
 table = table_format_str.format("Prefix", "Region", "Service")
 
-for prefix in result['prefixes']:
+for prefix in ip_ranges['prefixes']:
     if (args.ip and args.ip in ipaddress.ip_network(prefix['ip_prefix'])) or (args.region and args.region == prefix['region']):
             table +=  table_format_str.format(prefix['ip_prefix'], prefix['region'], prefix['service'])
 
