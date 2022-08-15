@@ -114,7 +114,7 @@ inoremap pdb import pdb; pdb.set_trace()
 inoremap bpry require pry; binding.pry
 
 " replace tabs with spaces
-autocmd FileType sh,c,cpp,java,php,python,ruby,eruby,puppet,yaml,terraform,groovy autocmd BufWritePre <buffer> :%s/\t/    /eg
+autocmd FileType sh,c,cpp,java,php,python,ruby,eruby,puppet,yaml,terraform,groovy autocmd BufWritePre <buffer> execute '%s/\t/  /e' . (&gdefault ? '' : 'g')
 " trim trailing whitespace on exit
 autocmd FileType sh,c,cpp,java,php,python,ruby,eruby,puppet,yaml,jinja2,terraform,groovy autocmd BufWritePre <buffer> :%s/\s\+$//e
 
