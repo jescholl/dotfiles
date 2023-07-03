@@ -30,7 +30,7 @@ done
 # shellcheck disable=SC2207
 required_vars=($(printf "%s\n" "${required_vars[@]}" | sort -u ))
 
-optional_vars=(LSHOST_CACHE_MAX_AGE LSHOST_CACHE_FILE)
+optional_vars=(LSHOST_CACHE_MAX_AGE LSHOST_CACHE_FILE LSHOST_PLUGINS)
 for plugin in "${loaded_plugins[@]}"; do
   # shellcheck disable=SC2207
   optional_vars+=($($plugin optional_vars))
