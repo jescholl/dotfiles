@@ -14,6 +14,8 @@
         conflict = "!f() { $EDITOR $(git diff --name-only --diff-filter=U); }; f"
         gredit   = "!f() { $EDITOR $(git grep ${@} | cut -d: -f 1 | sort -u ); }; f"
         yolo     = "!f() { git add $(git show --name-only --format=); git commit --amend --no-edit; git push -f; }; f"
+[diff]
+         renameLimit = 2000
 [color]
         diff = auto
         status = auto
