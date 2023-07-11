@@ -13,7 +13,7 @@
         dad     = "!f() { git commit -m \"$(curl -s https://icanhazdadjoke.com/)\"; }; f"
         conflict = "!f() { $EDITOR $(git diff --name-only --diff-filter=U); }; f"
         gredit   = "!f() { $EDITOR $(git grep ${@} | cut -d: -f 1 | sort -u ); }; f"
-
+        yolo     = "!f() { git add $(git show --name-only --format=); git commit --amend --no-edit; git push -f; }; f"
 [color]
         diff = auto
         status = auto
