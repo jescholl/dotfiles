@@ -1,4 +1,4 @@
-python 3.11.3
+python 3.11.4
 consul 1.14.3
 vault 1.12.2
 nomad 1.4.3
