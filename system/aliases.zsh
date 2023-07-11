@@ -9,5 +9,13 @@ if $(gls &>/dev/null); then
 fi
 
 alias mysql='docker run --rm -it mariadb mysql'
-alias tf=terraform
-alias tg=terragrunt
+
+alias tg=tf
+
+function tf () {
+  if [ -f "terragrunt.hcl" ]; then
+    terragrunt ${@}
+  else
+    terraform ${@}
+  fi
+}
