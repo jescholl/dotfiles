@@ -11,7 +11,8 @@ consul_uri="$consul_proto://$CONSUL_HTTP_ADDR"
 
 
 _required_vars() {
-  echo ""
+  cat <<EOT
+EOT
 }
 
 _optional_vars() {
