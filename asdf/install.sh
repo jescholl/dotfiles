@@ -1,6 +1,7 @@
 #!/bin/bash
 
 asdf plugin add terraform https://github.com/asdf-community/asdf-hashicorp.git
+asdf plugin add terragrunt https://github.com/ohmer/asdf-terragrunt.git
 asdf plugin add nomad https://github.com/asdf-community/asdf-hashicorp.git
 asdf plugin add vault https://github.com/asdf-community/asdf-hashicorp.git
 asdf plugin add consul https://github.com/asdf-community/asdf-hashicorp.git
