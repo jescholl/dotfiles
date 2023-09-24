@@ -9,6 +9,7 @@ asdf plugin add python https://github.com/danhper/asdf-python.git
 asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
 asdf plugin add pre-commit https://github.com/jonathanmorley/asdf-pre-commit.git
 asdf plugin add tfsec https://github.com/woneill/asdf-tfsec.git
+asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
 
 asdf install
 asdf reshim
