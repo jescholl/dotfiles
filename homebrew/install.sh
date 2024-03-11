@@ -16,7 +16,7 @@ source "$DOTFILES_ROOT/bootstrap/functions"
 # Check for Homebrew
 if ! command -v brew > /dev/null; then
   log_info "  Installing Homebrew for you."
-  if ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install)" > /tmp/install-homebrew.log 2>&1; then
+  if /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" > /tmp/install-homebrew.log 2>&1; then
     log_fail "Unable to install homebrew"
   fi
 fi
@@ -42,7 +42,7 @@ for pkg in $brew_packages; do
   if brew install "$pkg" > "/tmp/install-$pkg.log" 2>&1; then
     log_success "Installed $pkg"
   else
-    log_failure "Unable to install $pkg"
+    log_fail "Unable to install $pkg"
   fi
 done
 
