@@ -12,8 +12,10 @@
         pr      = "!f() { branch_name=\"$(git rev-parse --abbrev-ref HEAD)\"; repo_url=\"https://$(git remote get-url --push origin | tr ':' '/' | grep -o '[^/@]\\+/[^/]\\+/[^/.]\\+')\"; echo \"${repo_url}/pull/new/${branch_name}\"; open \"${repo_url}/pull/new/${branch_name}\"; }; f"
         dad     = "!f() { git commit -m \"$(curl -s https://icanhazdadjoke.com/)\"; }; f"
         conflict = "!f() { $EDITOR $(git diff --name-only --diff-filter=U); }; f"
-        gredit   = "!f() { $EDITOR $(git grep ${@} | cut -d: -f 1 | sort -u ); }; f"
+        gredit   = "!f() { $EDITOR $(git grep --name-only ${@}); }; f"
+        #gredit   = "!f() { cd $GIT_PREFIX && $EDITOR $(git grep --name-only ${@}); }; f"
         yolo     = "!f() { git add $(git show --name-only --format=); git commit --amend --no-edit; git push -f; }; f"
+        names    = "!f() { git log --pretty='format:%an (%ae)' ${1:-origin/weekly_review}..origin/master | sort | uniq -c; }; f"
 [diff]
          renameLimit = 2000
 [color]
