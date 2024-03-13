@@ -20,7 +20,7 @@ join_by() {
 # shellcheck disable=SC2207
 available_plugins=($(find_plugins))
 # shellcheck disable=SC2206
-loaded_plugins=(${LSHOST_PLUGINS:-${available_plugins[@]}})
+loaded_plugins=(${LSHOST_PLUGINS-${available_plugins[@]}})
 
 required_vars=()
 for plugin in "${loaded_plugins[@]}"; do
