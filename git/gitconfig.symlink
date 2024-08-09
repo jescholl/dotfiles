@@ -5,14 +5,14 @@
         lg      = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
         sync    = fetch origin master:master
         sha     = "!f() { git rev-parse ${@:-HEAD}; }; f"
-        squash  = "!f() { git rebase -i $(git merge-base HEAD origin/master); }; f"
+        squash  = "!f() { git rebase -i $(git merge-base HEAD origin/HEAD); }; f"
         edit    = "!f() { $EDITOR $(git show --name-only --format= ${@}); }; f"
         fu      = "!f() { [ -n \"${__git_ps1_branch_name}\" ]  || exit 1;  git add .; git commit -m 'foo'; git push origin \"${__git_ps1_branch_name}\"; }; f"
         squash-all = "!f(){ git reset $(git commit-tree HEAD^{tree} -m \"${1:-A new start}\");};f"
         pr      = "!f() { branch_name=\"$(git rev-parse --abbrev-ref HEAD)\"; repo_url=\"https://$(git remote get-url --push origin | tr ':' '/' | grep -o '[^/@]\\+/[^/]\\+/[^/.]\\+')\"; echo \"${repo_url}/pull/new/${branch_name}\"; open \"${repo_url}/pull/new/${branch_name}\"; }; f"
         dad     = "!f() { git commit -m \"$(curl -s https://icanhazdadjoke.com/)\"; }; f"
         conflict = "!f() { $EDITOR $(git diff --name-only --diff-filter=U); }; f"
-        gredit   = "!f() { $EDITOR $(git grep --name-only ${@}); }; f"
+        gredit   = "!f() { $EDITOR $(git grep --name-only \"${@}\"); }; f"
         #gredit   = "!f() { cd $GIT_PREFIX && $EDITOR $(git grep --name-only ${@}); }; f"
         yolo     = "!f() { git add $(git show --name-only --format=); git commit --amend --no-edit; git push -f; }; f"
         names    = "!f() { git log --pretty='format:%an (%ae)' ${1:-origin/weekly_review}..origin/master | sort | uniq -c; }; f"
@@ -63,3 +63,6 @@
 
 [init]
   defaultBranch = master
+[advice]
+  # Don't warn about skipped skipped commits when rebasing
+  skippedCherryPicks = false

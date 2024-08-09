@@ -20,31 +20,12 @@ alias pcp="pwd; pwd | pbcopy"
 
 function aws_assume_role() {
   local args=()
-  local role_arn=""
-
-  while [[ $# -gt 0 ]]; do
-    case $1 in
-      -*)
-        args+=("$1" "$2")
-        shift; shift
-        ;;
-      *)
-        if [[ "$role_arn" == "" ]]; then
-          role_arn="$1"
-          shift;
-        else
-          echo "Invalid arguments"
-          echo $@
-          return 1
-        fi
-        ;;
-    esac
-  done
+  local role_arn="$1"
 
   aws_cmd=("aws" "sts" "assume-role" "--role-arn" "$role_arn" "--role-session-name" "aws_assume_role_function")
   aws_cmd+=(${args[@]})
 
-  if assume_role_output=$($aws_cmd); then
+  if assume_role_output=$(${aws_cmd[@]}); then
     eval $(echo $assume_role_output | jq -r '.Credentials | "export AWS_ACCESS_KEY_ID=" + .AccessKeyId + "\nexport AWS_SECRET_ACCESS_KEY=" + .SecretAccessKey + "\nexport AWS_SESSION_TOKEN=" + .SessionToken')
 
     echo "Success: role assumed"
@@ -54,4 +35,12 @@ function aws_assume_role() {
     echo "OUTPUT: $assume_role_output"
   fi
 
+}
+
+function git-cliff() {
+  docker run -v "$PWD:/app" -e GIT_CLIFF__GIT__TAG_PATTERN  ghcr.io/orhun/git-cliff/git-cliff:2.2.1 $@
+}
+
+function renovate() {
+  docker run -v "$PWD:/pwd" -w /pwd -e LOG_LEVEL renovate/renovate:37.347.0-full $@
 }
