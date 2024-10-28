@@ -31,7 +31,7 @@ fi
 
 installed_packages="$(brew info --installed --json | jq .[].name)"
 
-brew_packages="awscli grc ipcalc tcping dhcping csshx gnu-tar wget nmap mtr httpie exercism jq the_silver_searcher autojump node git-standup shellcheck tflint vim tfenv coreutils eza bat gnupg hcl2json"
+brew_packages="awscli grc ipcalc tcping dhcping csshx gnu-tar wget nmap mtr httpie exercism jq the_silver_searcher autojump node git-standup shellcheck tflint vim tfenv coreutils eza bat gnupg hcl2json pinentry-mac"
 log_info "Installing packages"
 for pkg in $brew_packages; do
   if [[ "$installed_packages" =~ \"$pkg\" ]]; then
