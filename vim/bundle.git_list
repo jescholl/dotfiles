@@ -24,6 +24,6 @@ github.com/tpope/vim-repeat
 github.com/hashivim/vim-hashicorp-tools
 github.com/puppetlabs/puppet-syntax-vim
 github.com/fatih/vim-go
-github.com/vim-syntastic/syntastic
+github.com/dense-analysis/ale
 github.com/pearofducks/ansible-vim
 github.com/juliosueiras/vim-terraform-completion

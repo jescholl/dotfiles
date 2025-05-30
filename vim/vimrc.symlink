@@ -135,19 +135,10 @@ autocmd BufRead,BufNewFile *Dockerfile* set filetype=dockerfile
 autocmd BufRead,BufNewFile *.hcl set filetype=terraform
 autocmd BufRead,BufNewFile *.nomad set filetype=terraform
 
+let g:ale_fixers = {
+\  '*': ['remove_trailing_lines', 'trim_whitespace'],
+\  'terraform': ['terraform', 'remove_trailing_lines', 'trim_whitespace']
+\}
 
-"let g:syntastic_puppet_checkers = ['puppet-lint']
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-"let g:syntastic_terraform_checkers = ['terraform fmt']
-
-let g:syntastic_sh_shellcheck_args="-e SC1090 -e SC2181"
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-
-
-let g:syntastic_terraform_tffilter_plan = 0
+let g:ale_fix_on_save = 1
+let g:ale_virtualtext_cursor = 'current'
