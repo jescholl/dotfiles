@@ -8,4 +8,6 @@ ruby 3.3.0
 pre-commit 3.4.0
 tfsec 1.28.4
 golang 1.21.1
-kubectl 1.28.4
+kubectl 1.30.10
+argocd 2.13.3
+sops 3.9.3
