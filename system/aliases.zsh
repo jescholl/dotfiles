@@ -9,6 +9,8 @@ if $(gls &>/dev/null); then
 fi
 
 alias mysql='docker run --rm -it mariadb mysql'
+alias weed='docker run -it --rm -w /pwd -v "${PWD}:/pwd" --entrypoint weed chrislusf/seaweedfs'
+alias etcdctl='docker run -it --rm -w /pwd -v "${PWD}:/pwd" --entrypoint etcdctl quay.io/coreos/etcd:v3.5.21'
 
 alias tg=tf
 
