@@ -12,7 +12,7 @@ sudo apt update > /dev/null 2>&1
 
 # Install packages
 log_info 'installing packages'
-packages="awscli grc ipcalc dhcping wget nmap mtr httpie jq autojump zsh xsel silversearcher-ag"
+packages="awscli grc ipcalc dhcping wget nmap mtr httpie jq autojump zsh xsel silversearcher-ag asdf"
 for pkg in $packages; do
   if dpkg -s "$pkg" > /dev/null 2>&1; then
     log_success "Already installed $pkg"
