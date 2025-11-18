@@ -8,3 +8,18 @@ if (( $+commands[grc] )); then
     echo "Unable to find grc.zsh"
   fi
 fi
+
+
+
+# override grc function for kubectl so that STDIN/STDOUT attachments work properly
+kubectl() {
+  local real="${commands[$0]}"
+  case "$1" in
+    exec|attach|debug|run)
+      "$real" "$@"
+      ;;
+  *)
+    grc --colour=auto "$real" "$@"
+    ;;
+  esac
+}
