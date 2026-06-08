@@ -40,9 +40,9 @@ function aws_assume_role() {
 }
 
 function git-cliff() {
-  docker run -v "$PWD:/app" -e GIT_CLIFF__GIT__TAG_PATTERN  ghcr.io/orhun/git-cliff/git-cliff:2.2.1 $@
+  docker run -v "$PWD:/app" -e GIT_CLIFF__GIT__TAG_PATTERN  ghcr.io/orhun/git-cliff/git-cliff:2.2.1 "$@"
 }
 
 function renovate() {
-  docker run -v "$PWD:/pwd" -w /pwd -e LOG_LEVEL renovate/renovate:37.347.0-full $@
+  docker run -v "$PWD:/pwd" -w /pwd -e LOG_LEVEL renovate/renovate:37.347.0-full "$@"
 }
