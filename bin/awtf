@@ -10,24 +10,17 @@ import time
 
 
 def get_ip_ranges():
-
     cache_file = "/tmp/aws-ip-ranges.json"
-    ip_ranges = None
     try:
-        if time.time() - os.path.getmtime(cache_file) > 24 * 60 * 60:
-            raise OSError
-
-        with open(cache_file, "r") as f:
-            ip_ranges = json.loads(f.read())
-    except Exception:
-        ip_ranges = json.loads(urllib.request.urlopen("https://ip-ranges.amazonaws.com/ip-ranges.json").read())
-
-    finally:
-        if ip_ranges is not None:
-            with open(cache_file, "w") as f:
-                f.write(json.dumps(ip_ranges))
-
-    return ip_ranges
+        if time.time() - os.path.getmtime(cache_file) <= 86400:
+            with open(cache_file) as f:
+                return json.load(f)
+    except (OSError, json.JSONDecodeError):
+        pass
+    data = json.loads(urllib.request.urlopen("https://ip-ranges.amazonaws.com/ip-ranges.json").read())
+    with open(cache_file, "w") as f:
+        json.dump(data, f)
+    return data
 
 
 def aws_region(string):
