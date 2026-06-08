@@ -103,10 +103,7 @@ clone_repos() {
       # shellcheck disable=SC2164
       # popd failures are accounted for below
       git clone -q "https://${plugin}" "$repo_dir" 2> /dev/null ||
-        (cd "$repo_dir" && \
-        git fetch origin -q && \
-        git clean -fq && \
-        git reset --hard "$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/master)" -q)
+        (cd "$repo_dir" && git pull --ff-only -q)
 
       if [ $? == 0 ]; then
         log_success "  Cloned ${plugin}"
