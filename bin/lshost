@@ -55,9 +55,9 @@ environment_valid() {
     fi
   done
 
-  if [ "${#missing_vars}" -gt 0 ]; then
+  if [ "${#missing_vars[@]}" -gt 0 ]; then
     error "Required environment variables not set:"$'\n  '"$(join_by $'\n  ' "${missing_vars[@]}")"
-    show_help_and_exit "${#missing_vars}"
+    show_help_and_exit "${#missing_vars[@]}"
   fi
 }
 
