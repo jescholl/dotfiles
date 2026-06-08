@@ -23,9 +23,9 @@ function aws_assume_role() {
   local role_arn="$1"
 
   aws_cmd=("aws" "sts" "assume-role" "--role-arn" "$role_arn" "--role-session-name" "aws_assume_role_function")
-  aws_cmd+=(${args[@]})
+  aws_cmd+=("${args[@]}")
 
-  if assume_role_output=$(${aws_cmd[@]}); then
+  if assume_role_output=$("${aws_cmd[@]}"); then
     eval $(echo $assume_role_output | jq -r '.Credentials | "export AWS_ACCESS_KEY_ID=" + .AccessKeyId + "\nexport AWS_SECRET_ACCESS_KEY=" + .SecretAccessKey + "\nexport AWS_SESSION_TOKEN=" + .SessionToken')
 
     echo "Success: role assumed"
