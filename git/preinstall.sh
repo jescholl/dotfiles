@@ -8,8 +8,10 @@ if ! [ -f "$DOTFILES_SCRATCH/gitconfig.dynamic.symlink" ]; then
 
   user ' - What is your github author name?'
   read -re git_authorname
+  [[ -z "$git_authorname" ]] && { log_fail "Author name cannot be empty"; exit 1; }
   user ' - What is your github author email?'
   read -re git_authoremail
+  [[ -z "$git_authoremail" ]] && { log_fail "Author email cannot be empty"; exit 1; }
 
   awk \
     -v authorname="$git_authorname" \
