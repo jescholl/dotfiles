@@ -1,6 +1,7 @@
 #!/bin/bash
 source "${DOTFILES_ROOT}/bootstrap/functions"
 
+mkdir -p "$DOTFILES_SCRATCH"
 cat <<EOT > "${DOTFILES_SCRATCH}/env.dotfiles.sh.symlink"
 export DOTFILES_ROOT="${DOTFILES_ROOT}"
 export DOTFILES_SCRATCH="${DOTFILES_SCRATCH}"
