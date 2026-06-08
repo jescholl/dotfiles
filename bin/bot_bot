@@ -24,4 +24,11 @@ fi
 iconjson=", \"$icon_type\": \"$icon\""
 
 
-curl -X POST -d "payload={\"text\": \"$message\", \"parse\": \"full\", \"channel\": \"$channel\", \"username\": \"$botname\" $iconjson}" "$SLACK_WEBHOOK_URL"
+curl -X POST -d "payload=$(jq -n \
+  --arg text "$message" \
+  --arg ch "$channel" \
+  --arg user "$botname" \
+  --arg icon_type "$icon_type" \
+  --arg icon_val "$icon" \
+  '{text: $text, parse: "full", channel: $ch, username: $user} + {($icon_type): $icon_val}')" \
+  "$SLACK_WEBHOOK_URL"
