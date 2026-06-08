@@ -21,7 +21,7 @@ if [ ! -f "${tools_dir}/${name}/${version}" ]; then
 
   out_dir=$(mktemp -d "${build_dir}/${name}.XXX")
 
-  bash -c "cd ${out_dir} && wget ${download_url} -O ./${zip_name} && unzip ${zip_name}"
+  (cd "$out_dir" && wget "$download_url" -O "./$zip_name" && unzip "$zip_name")
 
   mkdir -p "${tools_dir}/${name}/"
   mkdir -p "${bin_dir}"
