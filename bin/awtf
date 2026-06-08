@@ -12,26 +12,26 @@ import time
 def get_ip_ranges():
 
     cache_file = "/tmp/aws-ip-ranges.json"
+    ip_ranges = None
     try:
-        if time.time() - os.path.getmtime(cache_file)  > 24 * 60 * 60:
-            raise
+        if time.time() - os.path.getmtime(cache_file) > 24 * 60 * 60:
+            raise OSError
 
         with open(cache_file, "r") as f:
             ip_ranges = json.loads(f.read())
-    except:
+    except Exception:
         ip_ranges = json.loads(urllib.request.urlopen("https://ip-ranges.amazonaws.com/ip-ranges.json").read())
 
     finally:
-        with open(cache_file, "w") as f:
-            f.write(json.dumps(ip_ranges))
+        if ip_ranges is not None:
+            with open(cache_file, "w") as f:
+                f.write(json.dumps(ip_ranges))
 
     return ip_ranges
 
 
 def aws_region(string):
-    try:
-        re.search("^\w\w(-gov)?-\w+-\d", string)
-    except:
+    if not re.search(r"^\w\w(-gov)?-\w+-\d", string):
         raise argparse.ArgumentTypeError("%r does not appear to be a valid AWS region" % string)
     return string
 
