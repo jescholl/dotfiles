@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# -ne 2 ]]; then
+  echo "Usage: $0 <src_prefix> <dst_prefix>" >&2
+  exit 1
+fi
+
+SRC="${1%/}"
+DST="${2%/}"
+
+# Sanity check
+if [[ "$SRC" == "$DST" ]]; then
+  echo "Source and destination must be different" >&2
+  exit 1
+fi
+
+echo "Moving Consul KV recursively:"
+echo "  from: $SRC/"
+echo "    to: $DST/"
+echo
+
+# List all keys under the source prefix
+consul kv get -keys "$SRC/" | while read -r key; do
+  # Compute destination key
+  suffix="${key#$SRC/}"
+  dst_key="$DST/$suffix"
+
+  echo "→ $key  ->  $dst_key"
+
+  # Read value and write to new key
+  consul kv get "$key" | consul kv put "$dst_key" -
+
+  # Delete original key
+  consul kv delete "$key"
+done
+
+echo
+echo "Done."
