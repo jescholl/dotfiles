@@ -100,7 +100,7 @@ cache_valid() {
   [ ! -s "$LSHOST_CACHE_FILE" ] && return 3
 
   # mtime < now - max_age
-  [ "$(date -r "$LSHOST_CACHE_FILE" "+%s")" -lt "$(($(date "+%s") - LSHOST_CACHE_MAX_AGE))" ] && return 4
+  [ "$(stat -f "%m" "$LSHOST_CACHE_FILE" 2>/dev/null || stat -c "%Y" "$LSHOST_CACHE_FILE")" -lt "$(($(date "+%s") - LSHOST_CACHE_MAX_AGE))" ] && return 4
 
   # valid
   return 0

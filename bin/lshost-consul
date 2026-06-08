@@ -29,7 +29,7 @@ _get_hosts() {
 
 request() {
   path="$1"
-  if ! nc -zG1 "${CONSUL_HTTP_ADDR%%:*}" "${CONSUL_HTTP_ADDR##*:}" 2> /dev/null; then
+  if ! nc -zw1 "${CONSUL_HTTP_ADDR%%:*}" "${CONSUL_HTTP_ADDR##*:}" 2> /dev/null; then
     error "Unable to connect to consul ($CONSUL_HTTP_ADDR) "
     exit 1
   fi
