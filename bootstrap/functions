@@ -15,7 +15,7 @@ log_success () {
 log_fail () {
   printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
   echo ''
-  exit
+  exit 1
 }
 
 
@@ -106,7 +106,7 @@ clone_repos() {
         (cd "$repo_dir" && \
         git fetch origin -q && \
         git clean -fq && \
-        git reset --hard origin/master -q)
+        git reset --hard "$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/master)" -q)
 
       if [ $? == 0 ]; then
         log_success "  Cloned ${plugin}"
