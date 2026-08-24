@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# OpenSCAD installs as a .app bundle; its CLI binary is capitalized and
+# never lands on $PATH.
+
+if [ "$(uname -s)" = "Darwin" ]; then
+  exec /Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD "$@"
+else
+  exec /usr/bin/openscad "$@"
+fi
