@@ -1,5 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "local>jescholl/renovate-config", "local>jescholl/renovate-config:automerge"],
+  "forkProcessing": "enabled",
+  "extends": ["config:recommended", "local>jescholl/renovate-config-base:renovate", "local>jescholl/renovate-config-automerge:renovate"],
   "asdf": { "enabled": true }
 }
