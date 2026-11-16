@@ -10,4 +10,4 @@ tfsec 1.28.4
 golang 1.21.1
 kubectl 1.37.2
 argocd 2.13.3
-sops 3.9.3
+sops 3.13.3
